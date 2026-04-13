@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Avengers Arcade & Health Hub</title>
+<style>
+:root{--bg:#050816;--panel:rgba(11,17,34,.58);--panel2:rgba(255,255,255,.06);--stroke:rgba(255,255,255,.12);--gold:#d6b56d;--gold2:#f7e7b0;--red:#d72638;--blue:#3f6fff;--text:#f4f7ff;--muted:#b6c0da;--glow:0 0 40px rgba(214,181,109,.16)}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;color:var(--text);background:
+radial-gradient(circle at 20% 10%, rgba(63,111,255,.18), transparent 28%),
+radial-gradient(circle at 80% 0%, rgba(214,181,109,.16), transparent 26%),
+linear-gradient(135deg,#02030a 0%,#071024 38%,#0c1022 100%);overflow-x:hidden}
+body:before,body:after{content:'';position:fixed;inset:auto;pointer-events:none;filter:blur(60px);opacity:.7;z-index:-1}
+body:before{width:280px;height:280px;border-radius:50%;background:rgba(214,181,109,.18);top:8%;left:-80px;animation:float 12s ease-in-out infinite}
+body:after{width:340px;height:340px;border-radius:50%;background:rgba(63,111,255,.15);right:-120px;top:55%;animation:float 15s ease-in-out infinite reverse}
+@keyframes float{50%{transform:translateY(22px) translateX(14px) scale(1.04)}}
+header{padding:28px 16px 18px;text-align:center;position:relative}
+header:after{content:'';display:block;width:min(760px,92vw);height:1px;margin:18px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+h1{margin:0;font-size:clamp(30px,5vw,62px);letter-spacing:3px;text-transform:uppercase;background:linear-gradient(90deg,#fff,#f7e7b0,#d6b56d,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 26px rgba(214,181,109,.12)}
+header p{margin:8px 0 0;color:var(--muted);letter-spacing:.35px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid rgba(214,181,109,.22);border-radius:999px;background:rgba(255,255,255,.04);backdrop-filter:blur(16px);box-shadow:var(--glow);color:var(--gold2);font-size:12px;text-transform:uppercase;letter-spacing:1.6px}
+main{max-width:1380px;margin:0 auto;padding:16px;display:grid;gap:18px}
+.section{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(12,18,37,.72),rgba(6,9,20,.7));backdrop-filter:blur(20px);border:1px solid var(--stroke);border-radius:24px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);transform:translateZ(0);transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease}
+.section:hover{transform:translateY(-4px);border-color:rgba(214,181,109,.25);box-shadow:0 24px 70px rgba(0,0,0,.45), 0 0 0 1px rgba(214,181,109,.08), inset 0 1px 0 rgba(255,255,255,.06)}
+.section h2{margin:0 0 12px;font-size:24px;letter-spacing:.6px}
+.grid{display:grid;gap:14px}
+.games{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.card{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:15px;transition:transform .28s ease, border-color .28s ease, box-shadow .28s ease;animation:rise .8s ease both}
+.card:hover{transform:translateY(-5px) scale(1.01);border-color:rgba(214,181,109,.28);box-shadow:0 16px 40px rgba(0,0,0,.28)}
+.card:before{content:'';position:absolute;inset:-2px;background:linear-gradient(135deg,transparent 20%,rgba(214,181,109,.12),transparent 55%,rgba(63,111,255,.1),transparent 85%);opacity:0;transition:opacity .35s ease;pointer-events:none}
+.card:hover:before{opacity:1}
+.card h3{margin:0 0 10px;font-size:18px;letter-spacing:.3px;color:#fff}
+button,input{font:inherit} input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:var(--text);outline:none} input::placeholder{color:#90a0c0}
+button{cursor:pointer;border:none;border-radius:14px;padding:11px 15px;background:linear-gradient(135deg,#d6b56d,#f4dfb0 45%,#9f7d2e);color:#1b1202;font-weight:800;letter-spacing:.4px;transition:transform .18s ease, filter .18s ease, box-shadow .18s ease;box-shadow:0 12px 26px rgba(214,181,109,.18)}
+button:hover{transform:translateY(-1px) scale(1.01);filter:saturate(1.08)} button:active{transform:translateY(1px) scale(.99)}
+button.secondary{background:linear-gradient(135deg,#2645ff,#72b7ff);color:#fff} button.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.1);box-shadow:none}
+#ttt{display:grid;grid-template-columns:repeat(3,84px);gap:10px;justify-content:center;margin:10px 0}
+.tttCell{width:84px;height:84px;font-size:30px;background:radial-gradient(circle at top,rgba(255,255,255,.12),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.1);color:#fff;border-radius:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+#riddleBox{min-height:120px;font-size:18px;line-height:1.5;color:#fff}
+.small{color:var(--muted);font-size:13px}
+#matchGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;max-width:380px}
+.matchCell{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,rgba(255,255,255,.08),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.1);border-radius:14px;font-size:18px;cursor:pointer;user-select:none;transition:transform .18s ease, background .18s ease}
+.matchCell:hover{transform:scale(1.04)} .matchCell.found{background:linear-gradient(135deg,rgba(214,181,109,.2),rgba(63,111,255,.18));border-color:rgba(214,181,109,.55)}
+.healthWrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+iframe{width:100%;min-height:640px;border:0;border-radius:16px;background:white;box-shadow:0 14px 40px rgba(0,0,0,.25)}
+#taskOut{min-height:72px;padding:12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.tag{display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(214,181,109,.14);color:#f7e7b0;border:1px solid rgba(214,181,109,.26);margin:3px 6px 3px 0;font-size:12px;letter-spacing:.2px}
+.ring{position:absolute;inset:auto 10px 10px auto;width:140px;height:140px;border-radius:50%;border:1px solid rgba(214,181,109,.16);filter:blur(.2px);box-shadow:0 0 0 1px rgba(255,255,255,.03) inset;animation:spin 28s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<header><div class="badge">Avengers Premium Collection</div>
+<h1>AVENGERS Arcade & Health Hub</h1>
+<p>Games, health tasks, and fitness tools in one interactive page.</p>
+</header>
+<main>
+<section class="section">
+<h2>10 Games</h2>
+<div class="grid games">
+  <div class="card">
+    <h3>1. Tic Tac Toe</h3>
+    <div id="ttt"></div>
+    <div class="small" id="tttMsg">Player X starts.</div>
+    <div style="margin-top:10px"><button class="ghost" onclick="resetTtt()">Reset Game</button></div>
+  </div>
+  <div class="card">
+    <h3>2. Math Riddle</h3>
+    <div id="riddleBox"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button onclick="showAnswer()">Show Answer</button>
+      <button class="secondary" onclick="nextRiddle()">Next Riddle</button>
+    </div>
+    <div class="small" id="riddleAns"></div>
+  </div>
+  <div class="card">
+    <h3>3. Match Finder</h3>
+    <div class="small">Find the Avengers pair in the 5×5 grid.</div>
+    <div id="matchGrid"></div>
+    <div class="small" id="matchMsg"></div>
+  </div>
+  <div class="card"><h3>4. Dice Roll</h3><button onclick="rollDice()">Roll Dice</button><div id="diceOut" style="font-size:44px;margin-top:12px">🎲</div></div>
+  <div class="card"><h3>5. Coin Toss</h3><button onclick="tossCoin()">Toss Coin</button><div id="coinOut" style="font-size:28px;margin-top:12px">Click to toss</div></div>
+  <div class="card"><h3>6. Number Guess</h3><input id="guessIn" type="number" placeholder="1-10"><button onclick="guessGame()" style="margin-left:8px">Guess</button><div id="guessMsg" class="small"></div></div>
+  <div class="card"><h3>7. Quick Click</h3><button onclick="startClicker()">Start 10s Timer</button><div id="clickBtnWrap" style="margin-top:10px"></div><div id="clickOut" class="small"></div></div>
+  <div class="card"><h3>8. Memory Flip</h3><button onclick="shuffleMemory()">Shuffle Cards</button><div id="memoryGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px"></div></div>
+  <div class="card"><h3>9. Color Pick</h3><button onclick="randomColor()">New Color</button><div id="colorBox" style="height:90px;border-radius:12px;margin-top:10px;background:#222"></div></div>
+  <div class="card"><h3>10. Reaction Tap</h3><button onclick="reactionStart()">Start Reaction Test</button><div id="reactionBox" class="small" style="margin-top:10px"></div></div>
+</div>
+</section>
+<section class="section">
+<h2>Health Section</h2>
+<div class="healthWrap">
+  <div class="card">
+    <h3>Get Healthy Task</h3>
+    <button onclick="getHealthyTask()">Get healthy</button>
+    <div id="taskOut" style="margin-top:12px"></div>
+    <div class="small">Tasks are generated from a large non-repeating pool in memory for this session.</div>
+  </div>
+  <div class="card">
+    <h3>Health Calculator</h3>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+<button class="secondary" id="openHealthBtn" onclick="openHealthSite()">Open Health Calculator in New Tab</button>
+<button class="ghost" onclick="reloadHealthFrame()">Reload Embedded Page</button>
+</div>
+<div class="small" style="margin-bottom:10px">For smoother reading and input, open in a new tab or use the embedded page below.</div>
+<iframe id="healthFrame" src="https://www.calculator.net/fitness-and-health-calculator.html" title="Fitness and Health Calculators" sandbox="allow-scripts allow-forms allow-same-origin allow-popups" referrerpolicy="no-referrer"></iframe><div class="small" style="margin-top:8px">Embedded and restricted to the Fitness and Health Calculators page as far as browser security allows.</div>
+  </div>
+</div>
+<div class="ring"></div></section>
+</main>
+<script>
+const ttt = document.getElementById('ttt');
+const tttMsg = document.getElementById('tttMsg');
+let board = Array(9).fill(''); let turn='X'; let over=false;
+function drawTtt(){ttt.innerHTML=''; board.forEach((v,i)=>{const b=document.createElement('button'); b.className='tttCell'; b.textContent=v; b.onclick=()=>playTtt(i); ttt.appendChild(b);});}
+function win(b,p){return [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]].some(l=>l.every(i=>b[i]===p));}
+function playTtt(i){if(over||board[i])return; board[i]=turn; drawTtt(); if(win(board,turn)){tttMsg.textContent=`Player ${turn} wins!`; over=true; return;} if(!board.includes('')){tttMsg.textContent='Draw!'; over=true; return;} turn=turn==='X'?'O':'X'; tttMsg.textContent=`Player ${turn}'s turn.`;}
+function resetTtt(){board=Array(9).fill(''); turn='X'; over=false; tttMsg.textContent='Player X starts.'; drawTtt();}
+resetTtt();
+const riddles=[['What has to be broken before you can use it?','An egg'],['I am tall when young and short when old. What am I?','A candle'],['What gets wetter the more it dries?','A towel'],['What has one eye but cannot see?','A needle'],['What can travel around the world while staying in a corner?','A stamp']]; let rid=0;
+function nextRiddle(){rid=(rid+1)%riddles.length; document.getElementById('riddleBox').textContent=riddles[rid][0]; document.getElementById('riddleAns').textContent='';}
+function showAnswer(){document.getElementById('riddleAns').textContent='Answer: '+riddles[rid][1];}
+nextRiddle();
+const matchGrid=document.getElementById('matchGrid'); const matchMsg=document.getElementById('matchMsg');
+const symbols=['A','A','V','V','E','E','N','N','G','G','R','R','S','S','X','X','L','L','P','P','H','H','M','M','T']; let hidden='A';
+function buildMatch(){matchGrid.innerHTML=''; [...symbols].sort(()=>Math.random()-.5).forEach(s=>{const d=document.createElement('div'); d.className='matchCell'; d.textContent='?'; d.dataset.v=s; d.onclick=()=>{d.textContent=s; if(s===hidden){d.classList.add('found'); matchMsg.textContent='Match found!';} else {matchMsg.textContent='Try again!'; setTimeout(()=>d.textContent='?',450);} }; matchGrid.appendChild(d);});}
+buildMatch();
+function rollDice(){document.getElementById('diceOut').textContent=['⚀','⚁','⚂','⚃','⚄','⚅'][Math.floor(Math.random()*6)];}
+function tossCoin(){document.getElementById('coinOut').textContent=Math.random()<.5?'Heads':'Tails';}
+let secret=Math.floor(Math.random()*10)+1;
+function guessGame(){const g=+document.getElementById('guessIn').value; document.getElementById('guessMsg').textContent=g===secret?'Correct! New number chosen.':g<secret?'Too low.':'Too high.'; if(g===secret) secret=Math.floor(Math.random()*10)+1;}
+let clickTimer=0, clicks=0;
+function startClicker(){clicks=0; document.getElementById('clickOut').textContent='Click the button as many times as you can in 10 seconds.'; const wrap=document.getElementById('clickBtnWrap'); wrap.innerHTML=''; const btn=document.createElement('button'); btn.textContent='CLICK'; btn.onclick=()=>{if(clickTimer>0) clicks++; document.getElementById('clickOut').textContent='Score: '+clicks;}; wrap.appendChild(btn); clickTimer=10; const iv=setInterval(()=>{clickTimer--; if(clickTimer<=0){clearInterval(iv); wrap.innerHTML=''; document.getElementById('clickOut').textContent='Time up! Final score: '+clicks;}},1000);}
+const memCards=['🛡️','🛡️','⚡','⚡','🕷️','🕷️','🔥','🔥'];
+function shuffleMemory(){const arr=[...memCards].sort(()=>Math.random()-.5); const g=document.getElementById('memoryGrid'); g.innerHTML=''; arr.forEach(v=>{const b=document.createElement('button'); b.className='ghost'; b.style.height='54px'; b.textContent='?'; b.onclick=()=>b.textContent=v; g.appendChild(b);});}
+shuffleMemory();
+function randomColor(){const c='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'); document.getElementById('colorBox').style.background=c;}
+let reactionActive=false, reactionStartTime=0, reactionTimeout=null;
+function reactionStart(){const box=document.getElementById('reactionBox'); box.textContent='Wait for green...'; reactionActive=false; clearTimeout(reactionTimeout); reactionTimeout=setTimeout(()=>{reactionActive=true; reactionStartTime=performance.now(); box.textContent='Tap NOW!'; box.onclick=()=>{if(reactionActive){box.textContent='Reaction: '+Math.round(performance.now()-reactionStartTime)+' ms'; reactionActive=false;}}},Math.random()*2500+1000);}
+const healthTasks=[]; const used=new Set();
+const premiumTasks=["Cold plunge for 30 seconds.","Mindful breathing for 1 minute.","Power stretch your neck and back.","Hydrate with a full glass of water.","Take a 5-minute posture reset.","Walk while avoiding your phone.","Do a 20-second plank.","Replace one snack with fruit.","Close your eyes and rest them for 30 seconds.","Do 10 bodyweight squats."];
+const actions=['Walk for 10 minutes','Drink 2 glasses of water','Do 15 jumping jacks','Stretch your shoulders','Eat one fruit','Take 10 deep breaths','Stand up and move for 2 minutes','Check your posture','Sleep 30 minutes earlier tonight','Avoid sugary snacks for one meal'];
+const places=['today','before lunch','this evening','after work','right now','in the next hour'];
+for(let i=1;i<=10000;i++) healthTasks.push(`Task ${i}: ${actions[i%actions.length]} ${places[i%places.length]}. ${premiumTasks[i%premiumTasks.length]}`);
+function getHealthyTask(){if(used.size===healthTasks.length) used.clear(); let i; do{i=Math.floor(Math.random()*healthTasks.length)}while(used.has(i)); used.add(i); document.getElementById('taskOut').innerHTML='<span class="tag">Healthy Task</span>'+healthTasks[i];}
+
+function pulseCards(){document.querySelectorAll('.card').forEach((c,i)=>{c.style.animationDelay=(i*45)+'ms';});}
+pulseCards();
+function lockHealthFrame(){
+  const frame=document.getElementById('healthFrame');
+  if(!frame) return;
+  const allowed='https://www.calculator.net/fitness-and-health-calculator.html';
+  frame.addEventListener('load',()=>{
+    setTimeout(()=>{
+      try{
+        const current=frame.contentWindow.location.href;
+        if(current && current!==allowed){frame.contentWindow.location.replace(allowed);}
+      }catch(e){
+        try{frame.contentWindow.location.replace(allowed);}catch(_){}
+      }
+    }, 1200);
+  });
+}
+function openHealthSite(){window.open('https://www.calculator.net/fitness-and-health-calculator.html','_blank','noopener,noreferrer');}
+function reloadHealthFrame(){const f=document.getElementById('healthFrame'); if(f) f.src='https://www.calculator.net/fitness-and-health-calculator.html';}
+lockHealthFrame();
+
+</script>
+</body>
+</html>
