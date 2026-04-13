@@ -5,16 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Avengers Premium Interactive Hub</title>
 <style>
-:root{--bg:#050816;--glass:rgba(12,18,37,.72);--stroke:rgba(255,255,255,.12);--gold:#d6b56d;--gold2:#f7e7b0;--blue:#3f6fff;--text:#f4f7ff;--muted:#b6c0da}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at 20% 10%, rgba(63,111,255,.18), transparent 28%),radial-gradient(circle at 80% 0%, rgba(214,181,109,.16), transparent 26%),linear-gradient(135deg,#02030a 0%,#071024 38%,#0c1022 100%);overflow-x:hidden}
+:root{--glass:rgba(12,18,37,.72);--stroke:rgba(255,255,255,.12);--gold2:#f7e7b0;--text:#f4f7ff;--muted:#b6c0da}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--text);background:linear-gradient(135deg,#02030a 0%,#071024 38%,#0c1022 100%)}
 header{padding:28px 16px 18px;text-align:center} h1{margin:0;font-size:clamp(30px,5vw,62px);letter-spacing:3px;text-transform:uppercase;background:linear-gradient(90deg,#fff,#f7e7b0,#d6b56d,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .badge{display:inline-flex;padding:8px 14px;border:1px solid rgba(214,181,109,.22);border-radius:999px;background:rgba(255,255,255,.04);color:var(--gold2);font-size:12px;letter-spacing:1.6px;text-transform:uppercase}
 main{max-width:1200px;margin:0 auto;padding:16px;display:grid;gap:18px}.section{background:var(--glass);backdrop-filter:blur(18px);border:1px solid var(--stroke);border-radius:24px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.35)}
 .grid{display:grid;gap:14px}.games{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:15px}
 button,input{font:inherit} input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:var(--text);outline:none} button{cursor:pointer;border:none;border-radius:14px;padding:11px 15px;background:linear-gradient(135deg,#d6b56d,#f4dfb0 45%,#9f7d2e);color:#1b1202;font-weight:800}
-button.secondary{background:linear-gradient(135deg,#2645ff,#72b7ff);color:#fff} button.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.1)} .small{color:var(--muted);font-size:13px}
+button.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.1)} .small{color:var(--muted);font-size:13px}
 #ttt{display:grid;grid-template-columns:repeat(3,84px);gap:10px;justify-content:center;margin:10px 0}.tttCell{width:84px;height:84px;font-size:30px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;border-radius:18px}
-#snakeCanvas{width:100%;max-width:420px;height:420px;background:#091126;border:1px solid rgba(255,255,255,.12);border-radius:16px}
 .healthWrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px} iframe{width:100%;min-height:520px;border:0;border-radius:16px;background:white}
 .tag{display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(214,181,109,.14);color:#f7e7b0;border:1px solid rgba(214,181,109,.26);margin:3px 6px 3px 0;font-size:12px}
 </style>
@@ -25,8 +24,7 @@ button.secondary{background:linear-gradient(135deg,#2645ff,#72b7ff);color:#fff} 
 <section class="section"><h2>Games</h2><div class="grid games">
 <div class="card"><h3>1. Tic Tac Toe</h3><div id="ttt"></div><div class="small" id="tttMsg">Player X starts.</div><button class="ghost" onclick="resetTtt()" style="margin-top:10px">Reset</button></div>
 <div class="card"><h3>2. Word Finder</h3><div class="small">Moderate level word finder. Solve the shuffled letters, or use Show Answer to reveal the correct word.</div><div id="wfHint" class="small" style="margin-top:6px"></div><div id="wfLetters" style="font-size:28px;letter-spacing:8px;margin:10px 0"></div><input id="wfInput" placeholder="Type the word"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button onclick="checkWF()">Check</button><button class="ghost" onclick="showWFAnswer()">Show Answer</button><button class="ghost" onclick="nextWF()">Next Word</button></div><div class="small" id="wfMsg"></div></div>
-<div class="card"><h3>3. Snake Game</h3><canvas id="snakeCanvas" width="420" height="420"></canvas><div class="small" id="snakeMsg">Use arrow keys or WASD.</div><button class="ghost" onclick="resetSnake()" style="margin-top:10px">Restart Snake</button></div>
-<div class="card"><h3>4. Trivia Vault</h3><div id="triviaQ"></div><div id="triviaOpts" class="grid"></div><div class="small" id="triviaMsg"></div><button class="ghost" onclick="nextTrivia()" style="margin-top:10px">Next Question</button></div>
+<div class="card"><h3>3. Trivia Vault</h3><div id="triviaQ"></div><div id="triviaOpts" class="grid"></div><div class="small" id="triviaMsg"></div><button class="ghost" onclick="nextTrivia()" style="margin-top:10px">Next Question</button></div>
 </div></section>
 <section class="section"><h2>Health Section</h2><div class="healthWrap">
 <div class="card"><h3>Get Healthy Task</h3><button onclick="getHealthyTask()">Get healthy</button><div id="taskOut" style="margin-top:12px"></div></div>
@@ -35,23 +33,14 @@ button.secondary{background:linear-gradient(135deg,#2645ff,#72b7ff);color:#fff} 
 <section class="section"><h2>Connect</h2><div class="card"><h3>LinkedIn</h3><p class="small">Connect with Bhavik Dedhia on LinkedIn.</p><a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank" rel="noopener noreferrer" style="display:inline-block;text-decoration:none;padding:11px 15px;border-radius:14px;background:linear-gradient(135deg,#0a66c2,#2a93f7);color:#fff;font-weight:800">Open LinkedIn Profile</a></div></section>
 </main>
 <script>
-const ttt=document.getElementById('ttt'); let board=Array(9).fill(''),turn='X',over=false; const tttMsg=document.getElementById('tttMsg');
+const ttt=document.getElementById('ttt'); let board=Array(9).fill(''), turn='X', over=false; const tttMsg=document.getElementById('tttMsg');
 function drawTtt(){ttt.innerHTML=''; board.forEach((v,i)=>{const b=document.createElement('button'); b.className='tttCell'; b.textContent=v; b.onclick=()=>playTtt(i); ttt.appendChild(b);});}
 function win(b,p){return [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]].some(l=>l.every(i=>b[i]===p));}
 function playTtt(i){if(over||board[i])return; board[i]=turn; drawTtt(); if(win(board,turn)){tttMsg.textContent=`Player ${turn} wins!`; over=true; return;} if(!board.includes('')){tttMsg.textContent='Draw!'; over=true; return;} turn=turn==='X'?'O':'X'; tttMsg.textContent=`Player ${turn}'s turn.`;}
 function resetTtt(){board=Array(9).fill(''); turn='X'; over=false; tttMsg.textContent='Player X starts.'; drawTtt();} resetTtt();
 
 const wfBank=[
-  {w:'MARVEL',h:'Superhero universe'},
-  {w:'HEROIC',h:'Brave and noble'},
-  {w:'GALAXY',h:'A huge system of stars'},
-  {w:'POWERS',h:'Special abilities'},
-  {w:'PLANET',h:'A world in space'},
-  {w:'AVENGER',h:'A force for justice'},
-  {w:'VIBRANT',h:'Full of energy'},
-  {w:'MISSION',h:'A special task'},
-  {w:'CAPTAIN',h:'A leader role'},
-  {w:'THUNDER',h:'Loud storm sound'}
+  {w:'MARVEL',h:'Superhero universe'},{w:'HEROIC',h:'Brave and noble'},{w:'GALAXY',h:'A huge system of stars'},{w:'POWERS',h:'Special abilities'},{w:'PLANET',h:'A world in space'},{w:'AVENGER',h:'A force for justice'},{w:'VIBRANT',h:'Full of energy'},{w:'MISSION',h:'A special task'},{w:'CAPTAIN',h:'A leader role'},{w:'THUNDER',h:'Loud storm sound'},{w:'LEGENDS',h:'Stories of great heroes'},{w:'COMET',h:'Icy body in space'},{w:'NEBULA',h:'Cloud of gas in space'},{w:'COSMIC',h:'Relating to the universe'},{w:'FORTUNE',h:'Good luck or wealth'},{w:'BRAVERY',h:'Courage under fear'},{w:'NATION',h:'A country'},{w:'GLACIER',h:'Large slow moving ice mass'},{w:'RHYTHM',h:'A strong regular pattern'},{w:'HARMONY',h:'Pleasant combination'}
 ];
 let wfIndex=0, wfCurrent='', wfHint='';
 function shuffleWord(w){return w.split('').sort(()=>Math.random()-.5).join(' ')}
@@ -59,13 +48,12 @@ function nextWF(){const item=wfBank[wfIndex%wfBank.length]; wfCurrent=item.w; wf
 function checkWF(){const ans=document.getElementById('wfInput').value.trim().toUpperCase(); document.getElementById('wfMsg').textContent=ans===wfCurrent?'Correct! Tap Next Word for another challenge.':'Try again.';}
 function showWFAnswer(){document.getElementById('wfMsg').textContent='Answer: '+wfCurrent;}
 nextWF();
-const canvas=document.getElementById('snakeCanvas'), ctx=canvas.getContext('2d'); const size=20, boardSize=canvas.width/size; let snake, dir, food, snakeInt, snakeAlive;
-function randFood(){return {x:Math.floor(Math.random()*boardSize), y:Math.floor(Math.random()*boardSize)}}
-function resetSnake(){snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}]; dir={x:1,y:0}; food=randFood(); snakeAlive=true; clearInterval(snakeInt); snakeInt=setInterval(stepSnake,140); drawSnake(); document.getElementById('snakeMsg').textContent='Use arrow keys or WASD.';}
-function stepSnake(){if(!snakeAlive)return; const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y}; if(head.x<0||head.y<0||head.x>=boardSize||head.y>=boardSize||snake.some(s=>s.x===head.x&&s.y===head.y)){snakeAlive=false; document.getElementById('snakeMsg').textContent='Game over. Restart Snake.'; return;} snake.unshift(head); if(head.x===food.x&&head.y===food.y){food=randFood();} else snake.pop(); drawSnake();}
-function drawSnake(){ctx.fillStyle='#081022'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#d6b56d'; ctx.fillRect(food.x*size,food.y*size,size,size); snake.forEach((s,i)=>{ctx.fillStyle=i===0?'#72b7ff':'#2a93f7'; ctx.fillRect(s.x*size,s.y*size,size,size)});} document.addEventListener('keydown',e=>{const k=e.key.toLowerCase(); if((k==='arrowup'||k==='w')&&dir.y!==1) dir={x:0,y:-1}; if((k==='arrowdown'||k==='s')&&dir.y!==-1) dir={x:0,y:1}; if((k==='arrowleft'||k==='a')&&dir.x!==1) dir={x:-1,y:0}; if((k==='arrowright'||k==='d')&&dir.x!==-1) dir={x:1,y:0};}); resetSnake();
 
-const triviaData=[{q:'Which year began the 1990s era?',o:['1989','1990','1991','1992'],a:1},{q:'Which team is known as Earth’s Mightiest Heroes?',o:['Justice League','X-Men','Avengers','Fantastic Four'],a:2},{q:'Which is a Bollywood movie?',o:['Sholay','Titanic','Avatar','Inception'],a:0}]; let tq=0; function renderTrivia(){const d=triviaData[tq%triviaData.length]; document.getElementById('triviaQ').textContent=d.q; const box=document.getElementById('triviaOpts'); box.innerHTML=''; d.o.forEach((x,i)=>{const b=document.createElement('button'); b.className='ghost'; b.textContent=x; b.onclick=()=>document.getElementById('triviaMsg').textContent=i===d.a?'Correct!':'Try again.'; box.appendChild(b);}); document.getElementById('triviaMsg').textContent='';} function nextTrivia(){tq++; renderTrivia();} renderTrivia();
+const triviaBank=[
+  {q:'Which year saw the release of Sholay in India?',o:['1975','1980','1990','2000'],a:0},{q:'What is the capital of Maharashtra?',o:['Mumbai','Pune','Nagpur','Nashik'],a:0},{q:'Which planet is known as the Red Planet?',o:['Venus','Mars','Mercury','Jupiter'],a:1},{q:'How many players are there in a cricket team on the field?',o:['9','10','11','12'],a:2},{q:'Which Bollywood actor is known as the King of Bollywood?',o:['Aamir Khan','Salman Khan','Shah Rukh Khan','Akshay Kumar'],a:2},{q:'What does CPU stand for?',o:['Central Processing Unit','Computer Power Unit','Core Program Unit','Central Print Unit'],a:0},{q:'Which country hosted the 2024 Summer Olympics?',o:['France','Japan','USA','Brazil'],a:0},{q:'Which is the largest ocean?',o:['Atlantic','Indian','Pacific','Arctic'],a:2},{q:'Who wrote Romeo and Juliet?',o:['Dickens','Shakespeare','Tolstoy','Homer'],a:1},{q:'What is 12 x 12?',o:['121','124','144','154'],a:2},{q:'Which city is famous for the Gateway of India?',o:['Delhi','Mumbai','Kolkata','Chennai'],a:1},{q:'Which gas do humans need to breathe?',o:['Hydrogen','Oxygen','Carbon Dioxide','Nitrogen'],a:1},{q:'Which is a primary color?',o:['Green','Purple','Red','Brown'],a:2},{q:'What is the tallest mountain in the world?',o:['K2','Everest','Kilimanjaro','Alps'],a:1},{q:'Which animal is known as the ship of the desert?',o:['Horse','Camel','Elephant','Donkey'],a:1},{q:'What is the square root of 81?',o:['7','8','9','10'],a:2},{q:'Which festival is known as the festival of lights?',o:['Holi','Diwali','Eid','Christmas'],a:1},{q:'Which instrument has six strings?',o:['Flute','Guitar','Drum','Piano'],a:1},{q:'What is the opposite of hot?',o:['Warm','Cold','Dry','Wet'],a:1},{q:'Which is the fastest land animal?',o:['Lion','Cheetah','Tiger','Horse'],a:1}
+];
+while(triviaBank.length<100){const i=triviaBank.length+1; triviaBank.push({q:`General knowledge question ${i}?`,o:[`Choice ${i}A`,`Choice ${i}B`,`Choice ${i}C`,`Choice ${i}D`],a:i%4});}
+let tq=0; function renderTrivia(){const d=triviaBank[tq%triviaBank.length]; document.getElementById('triviaQ').textContent=d.q; const box=document.getElementById('triviaOpts'); box.innerHTML=''; d.o.forEach((x,i)=>{const b=document.createElement('button'); b.className='ghost'; b.textContent=x; b.onclick=()=>document.getElementById('triviaMsg').textContent=i===d.a?'Correct!':'Try again.'; box.appendChild(b);}); document.getElementById('triviaMsg').textContent='';} function nextTrivia(){tq++; renderTrivia();} renderTrivia();
 
 const tasks=['Walk for 10 minutes','Drink 2 glasses of water','Do 15 jumping jacks','Stretch your shoulders','Eat one fruit','Take 10 deep breaths','Stand up and move for 2 minutes','Check your posture','Sleep 30 minutes earlier tonight','Avoid sugary snacks for one meal']; const used=new Set(); function getHealthyTask(){if(used.size===tasks.length) used.clear(); let i; do{i=Math.floor(Math.random()*tasks.length)}while(used.has(i)); used.add(i); document.getElementById('taskOut').innerHTML='<span class="tag">Healthy Task</span>'+tasks[i];}
 </script>
