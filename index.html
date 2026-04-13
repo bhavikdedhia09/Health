@@ -24,7 +24,7 @@ button.secondary{background:linear-gradient(135deg,#2645ff,#72b7ff);color:#fff} 
 <main>
 <section class="section"><h2>Games</h2><div class="grid games">
 <div class="card"><h3>1. Tic Tac Toe</h3><div id="ttt"></div><div class="small" id="tttMsg">Player X starts.</div><button class="ghost" onclick="resetTtt()" style="margin-top:10px">Reset</button></div>
-<div class="card"><h3>2. Word Finder</h3><div class="small">Find the hidden word from 4 to 10 letters. Each solved round loads a new non-repeating word from a large pool.</div><div id="wfLetters" style="font-size:28px;letter-spacing:8px;margin:10px 0"></div><input id="wfInput" placeholder="Type the word"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button onclick="checkWF()">Check</button><button class="ghost" onclick="nextWF()">Next Word</button></div><div class="small" id="wfMsg"></div></div>
+<div class="card"><h3>2. Word Finder</h3><div class="small">Moderate level word finder. Solve the shuffled letters, or use Show Answer to reveal the correct word.</div><div id="wfHint" class="small" style="margin-top:6px"></div><div id="wfLetters" style="font-size:28px;letter-spacing:8px;margin:10px 0"></div><input id="wfInput" placeholder="Type the word"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button onclick="checkWF()">Check</button><button class="ghost" onclick="showWFAnswer()">Show Answer</button><button class="ghost" onclick="nextWF()">Next Word</button></div><div class="small" id="wfMsg"></div></div>
 <div class="card"><h3>3. Snake Game</h3><canvas id="snakeCanvas" width="420" height="420"></canvas><div class="small" id="snakeMsg">Use arrow keys or WASD.</div><button class="ghost" onclick="resetSnake()" style="margin-top:10px">Restart Snake</button></div>
 <div class="card"><h3>4. Trivia Vault</h3><div id="triviaQ"></div><div id="triviaOpts" class="grid"></div><div class="small" id="triviaMsg"></div><button class="ghost" onclick="nextTrivia()" style="margin-top:10px">Next Question</button></div>
 </div></section>
@@ -41,12 +41,24 @@ function win(b,p){return [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8
 function playTtt(i){if(over||board[i])return; board[i]=turn; drawTtt(); if(win(board,turn)){tttMsg.textContent=`Player ${turn} wins!`; over=true; return;} if(!board.includes('')){tttMsg.textContent='Draw!'; over=true; return;} turn=turn==='X'?'O':'X'; tttMsg.textContent=`Player ${turn}'s turn.`;}
 function resetTtt(){board=Array(9).fill(''); turn='X'; over=false; tttMsg.textContent='Player X starts.'; drawTtt();} resetTtt();
 
-const wfWords=[]; const wfUsed=new Set(); const wfAlphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-for(let i=0;i<10000;i++){let len=4+(i%7), w=''; for(let j=0;j<len;j++) w+=wfAlphabet[(i*7+j*11)%26]; wfWords.push(w);} let wfIndex=0, wfCurrent='';
-function nextWF(){if(wfUsed.size===wfWords.length) wfUsed.clear(); let idx; do{idx=(wfIndex++)%wfWords.length;}while(wfUsed.has(idx)); wfUsed.add(idx); wfCurrent=wfWords[idx]; document.getElementById('wfLetters').textContent=wfCurrent.split('').join(' '); document.getElementById('wfInput').value=''; document.getElementById('wfMsg').textContent='';}
-function checkWF(){const ans=document.getElementById('wfInput').value.trim().toUpperCase(); document.getElementById('wfMsg').textContent=ans===wfCurrent?'Correct! New word loaded.':'Try again.'; if(ans===wfCurrent) nextWF();}
+const wfBank=[
+  {w:'MARVEL',h:'Superhero universe'},
+  {w:'HEROIC',h:'Brave and noble'},
+  {w:'GALAXY',h:'A huge system of stars'},
+  {w:'POWERS',h:'Special abilities'},
+  {w:'PLANET',h:'A world in space'},
+  {w:'AVENGER',h:'A force for justice'},
+  {w:'VIBRANT',h:'Full of energy'},
+  {w:'MISSION',h:'A special task'},
+  {w:'CAPTAIN',h:'A leader role'},
+  {w:'THUNDER',h:'Loud storm sound'}
+];
+let wfIndex=0, wfCurrent='', wfHint='';
+function shuffleWord(w){return w.split('').sort(()=>Math.random()-.5).join(' ')}
+function nextWF(){const item=wfBank[wfIndex%wfBank.length]; wfCurrent=item.w; wfHint=item.h; document.getElementById('wfHint').textContent='Hint: '+wfHint; document.getElementById('wfLetters').textContent=shuffleWord(wfCurrent); document.getElementById('wfInput').value=''; document.getElementById('wfMsg').textContent=''; wfIndex++;}
+function checkWF(){const ans=document.getElementById('wfInput').value.trim().toUpperCase(); document.getElementById('wfMsg').textContent=ans===wfCurrent?'Correct! Tap Next Word for another challenge.':'Try again.';}
+function showWFAnswer(){document.getElementById('wfMsg').textContent='Answer: '+wfCurrent;}
 nextWF();
-
 const canvas=document.getElementById('snakeCanvas'), ctx=canvas.getContext('2d'); const size=20, boardSize=canvas.width/size; let snake, dir, food, snakeInt, snakeAlive;
 function randFood(){return {x:Math.floor(Math.random()*boardSize), y:Math.floor(Math.random()*boardSize)}}
 function resetSnake(){snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}]; dir={x:1,y:0}; food=randFood(); snakeAlive=true; clearInterval(snakeInt); snakeInt=setInterval(stepSnake,140); drawSnake(); document.getElementById('snakeMsg').textContent='Use arrow keys or WASD.';}
