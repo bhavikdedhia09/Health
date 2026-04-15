@@ -1,617 +1,515 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Avengers Final Working Hub</title>
-<style>
-/* ── Base ── */
-:root{
-  --glass:rgba(12,18,37,.72);
-  --stroke:rgba(255,255,255,.12);
-  --gold:#d6b56d;
-  --gold2:#f7e7b0;
-  --green:#22c55e;
-  --green-dark:#16a34a;
-  --blue:#38bdf8;
-  --text:#f4f7ff;
-  --muted:#b6c0da;
-  --bg-card:rgba(255,255,255,.05);
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Inter,Arial,sans-serif;
-  color:var(--text);
-  background:linear-gradient(135deg,#02030a 0%,#071024 38%,#0c1022 100%);
-  overflow-x:hidden;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthPulse · Advanced Health Assessment & 30‑Day Wellness</title>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #141414; color: #e5e5e5; line-height: 1.5; }
+    .hero { background: radial-gradient(circle at 20% 30%, rgba(30,30,30,0.95) 0%, #0a0a0a 100%); min-height: 100vh; display: flex; flex-direction: column; }
+    .navbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 4%; background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%); position: sticky; top: 0; z-index: 20; }
+    .logo { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; color: #e50914; text-transform: uppercase; text-shadow: 0 0 12px rgba(229,9,20,0.4); }
+    .logo i { margin-right: 8px; color: #e50914; }
+    .nav-links { display: flex; gap: 2.5rem; font-weight: 500; }
+    .nav-links a { color: #e5e5e5; text-decoration: none; font-size: 1rem; transition: color 0.2s; cursor: pointer; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; font-weight: 600; }
+    .linkedin-icon { color: #0077b5; font-size: 2rem; transition: transform 0.2s, color 0.2s; }
+    .linkedin-icon:hover { color: #00a0dc; transform: scale(1.1); }
+    .main-container { max-width: 1600px; margin: 0 auto; padding: 2rem 4% 6rem; }
+    .featured-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 12px; }
+    .featured-title i { color: #e50914; }
+    .subhead { color: #b3b3b3; margin-bottom: 2rem; font-size: 1.1rem; }
+    .netflix-row { display: flex; flex-wrap: wrap; gap: 2rem; }
+    .assessment-card { background: #181818; border-radius: 18px; padding: 2rem 2rem 2.5rem; flex: 1.2; min-width: 420px; box-shadow: 0 12px 28px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03); transition: transform 0.2s; max-height: 700px; overflow-y: auto; }
+    .assessment-card:hover { box-shadow: 0 20px 36px rgba(0,0,0,0.9), 0 0 0 1px rgba(229,9,20,0.2); transform: translateY(-4px); }
+    .report-preview { flex: 2.5; min-width: 600px; background: #0f0f0f; border-radius: 18px; padding: 2rem 2.2rem; box-shadow: inset 0 0 0 1px #2a2a2a, 0 12px 28px #000; max-height: 700px; overflow-y: auto; }
+    h2 { font-weight: 600; font-size: 1.8rem; margin-bottom: 1.8rem; display: flex; align-items: center; gap: 10px; }
+    h2 i { color: #e50914; font-size: 1.6rem; }
+    h3 { font-weight: 600; font-size: 1.2rem; margin: 1.5rem 0 1rem; color: #fff; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .input-group { display: flex; flex-direction: column; gap: 6px; }
+    .input-group label { font-weight: 500; color: #ccc; font-size: 0.85rem; }
+    .input-group input, .input-group select { background: #232323; border: 1px solid #3a3a3a; border-radius: 10px; padding: 10px 12px; color: white; font-size: 0.95rem; outline: none; }
+    .input-group input:focus, .input-group select:focus { border-color: #e50914; background: #1e1e1e; }
+    .full-width { grid-column: span 2; }
+    .btn-primary { background: #e50914; color: white; border: none; border-radius: 40px; padding: 14px 24px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(229,9,20,0.4); margin-top: 0.5rem; grid-column: span 2; }
+    .btn-primary:hover { background: #f40612; box-shadow: 0 8px 20px #e5091450; transform: scale(1.01); }
+    .btn-secondary { background: transparent; border: 1.5px solid #4a4a4a; color: #ddd; border-radius: 40px; padding: 10px 18px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+    .btn-secondary:hover { border-color: #e50914; color: white; }
+    .badge { background: #e50914; padding: 6px 16px; border-radius: 30px; font-weight: 600; }
+    .metric-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .tile { background: #1c1c1c; border-radius: 16px; padding: 1rem 1.2rem; border: 1px solid #2e2e2e; }
+    .tile .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #aaa; }
+    .tile .value { font-size: 1.8rem; font-weight: 700; color: white; }
+    .tile .unit { font-size: 0.85rem; color: #888; margin-left: 4px; }
+    .section-title { font-size: 1.3rem; font-weight: 600; margin: 1.5rem 0 1rem; border-left: 4px solid #e50914; padding-left: 14px; }
+    .risk-summary { background: #1a1a1a; border-radius: 16px; padding: 1.2rem; margin: 1rem 0; }
+    .risk-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-right: 8px; margin-bottom: 6px; }
+    .risk-low { background: #1a4d1a; color: #8bc34a; }
+    .risk-moderate { background: #5c4a00; color: #ffd54f; }
+    .risk-high { background: #5c1a1a; color: #ff8a80; }
+    .diet-plan { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 0.8rem; }
+    .meal-card { background: #181818; border-radius: 14px; padding: 1rem; border: 1px solid #2c2c2c; }
+    .meal-card h4 { color: #e50914; margin-bottom: 8px; font-size: 1rem; }
+    .meal-card ul { list-style: none; padding-left: 0; font-size: 0.85rem; }
+    .meal-card li { padding: 3px 0; }
+    .rec-list { list-style: none; }
+    .rec-list li { padding: 0.4rem 0; display: flex; gap: 10px; font-size: 0.9rem; }
+    .rec-list i { color: #2ecc71; width: 18px; }
+    .action-bar { display: flex; gap: 1rem; margin-top: 1rem; }
+    .empty-message { color: #aaa; font-style: italic; text-align: center; padding: 3rem; }
+    .progress-bar { background: #2a2a2a; height: 8px; border-radius: 10px; margin: 8px 0; }
+    .progress-fill { background: #e50914; height: 8px; border-radius: 10px; width: 0%; }
+    .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    .info-box { background: #1a1a1a; border-radius: 14px; padding: 1rem; border-left: 3px solid #e50914; }
+    .disclaimer-box { background: #1e1a1a; border-left: 4px solid #f39c12; padding: 1rem 1.5rem; border-radius: 12px; margin: 1rem 0; font-size: 0.9rem; color: #ddd; line-height: 1.6; }
+    .doctor-report { background: #151515; border-radius: 20px; padding: 1.5rem; margin-top: 1rem; border: 1px solid #2e2e2e; }
+    .report-header-doctor { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+    .report-section { margin-bottom: 1.8rem; }
+    .report-section h4 { color: #e50914; font-size: 1.1rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px; }
 
-/* ── Header ── */
-header{padding:28px 16px 18px;text-align:center}
-h1{
-  margin:0;
-  font-size:clamp(28px,5vw,60px);
-  letter-spacing:3px;
-  text-transform:uppercase;
-  background:linear-gradient(90deg,#fff,#f7e7b0,#d6b56d,#fff);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.badge-top{
-  display:inline-flex;padding:8px 14px;
-  border:1px solid rgba(214,181,109,.22);border-radius:999px;
-  background:rgba(255,255,255,.04);color:var(--gold2);
-  font-size:12px;letter-spacing:1.6px;text-transform:uppercase;
-}
+    /* Wellness tab */
+    .wellness-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+    .progress-stats { background: #1a1a1a; padding: 0.8rem 1.8rem; border-radius: 40px; font-weight: 600; }
+    .workout-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; margin: 2rem 0; }
+    .day-card { background: #181818; border-radius: 16px; padding: 1.2rem; border: 1px solid #2c2c2c; transition: 0.2s; }
+    .day-card.completed { border-color: #2ecc71; background: #1a2a1a; }
+    .day-number { font-size: 1.8rem; font-weight: 800; color: #e50914; }
+    .day-label { font-weight: 600; margin: 4px 0; }
+    .day-type { font-size: 0.75rem; color: #aaa; text-transform: uppercase; margin-bottom: 8px; }
+    .day-check { margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+    .day-check input { width: 18px; height: 18px; accent-color: #e50914; cursor: pointer; }
+    .badge-section { margin-top: 2.5rem; background: linear-gradient(145deg, #1e1e1e, #151515); border-radius: 24px; padding: 2rem; text-align: center; border: 1px solid #333; }
+    .badge-preview { display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    #badgeCanvas { border-radius: 20px; box-shadow: 0 8px 30px #000, 0 0 0 1px #3a3a3a; max-width: 100%; background: #0b0b0b; }
+    .badge-actions { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: center; }
+    .back-btn { background: #232323; border: 1px solid #444; padding: 10px 22px; border-radius: 40px; color: white; font-weight: 500; cursor: pointer; }
+    .back-btn:hover { background: #2a2a2a; border-color: #e50914; }
+    .name-input-container { margin: 1rem 0; display: flex; gap: 0.8rem; align-items: center; justify-content: center; }
+    .name-input-container input { background: #232323; border: 1px solid #3a3a3a; border-radius: 40px; padding: 10px 18px; color: white; width: 220px; }
+    .name-input-container input:focus { border-color: #e50914; outline: none; }
 
-/* ── Layout ── */
-main{max-width:1200px;margin:0 auto;padding:16px;display:grid;gap:18px}
-.section{
-  background:var(--glass);
-  backdrop-filter:blur(18px);
-  border:1px solid var(--stroke);
-  border-radius:24px;
-  padding:22px;
-  box-shadow:0 18px 60px rgba(0,0,0,.35);
-}
-.section h2{
-  margin-top:0;
-  background:linear-gradient(90deg,#fff,var(--gold2));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  letter-spacing:1px;
-}
-.grid{display:grid;gap:14px}
-.games{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-.healthWrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
-.dashWrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+    /* Quiz Styles */
+    .quiz-container { max-width: 900px; margin: 0 auto; background: #181818; border-radius: 24px; padding: 2rem; box-shadow: 0 12px 28px #000; border: 1px solid #2a2a2a; }
+    .quiz-header { display: flex; justify-content: space-between; margin-bottom: 1.5rem; align-items: center; }
+    .quiz-progress { font-size: 1.2rem; background: #e50914; padding: 6px 20px; border-radius: 40px; }
+    .quiz-question { font-size: 1.6rem; font-weight: 600; margin-bottom: 2rem; line-height: 1.4; }
+    .quiz-options { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+    .quiz-option { background: #232323; border: 1px solid #3a3a3a; border-radius: 16px; padding: 1rem 1.5rem; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; display: flex; align-items: center; }
+    .quiz-option:hover { background: #2a2a2a; border-color: #e50914; }
+    .quiz-option.selected { background: #e50914; color: white; border-color: #e50914; }
+    .quiz-option.correct-highlight { background: #1a4d1a; border-color: #2ecc71; }
+    .quiz-option.wrong-highlight { background: #5c1a1a; border-color: #e74c3c; }
+    .quiz-option span.option-letter { font-weight: 700; margin-right: 20px; background: #0f0f0f; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 30px; }
+    .quiz-feedback { background: #1a1a1a; border-radius: 16px; padding: 1.2rem; margin: 1.5rem 0; border-left: 4px solid #e50914; }
+    .quiz-actions { display: flex; gap: 1rem; justify-content: flex-end; }
+    .quiz-result { text-align: center; padding: 2rem; }
+    .quiz-score { font-size: 4rem; font-weight: 800; color: #e50914; }
+    .quiz-review { margin-top: 2rem; text-align: left; max-height: 400px; overflow-y: auto; }
+    .review-item { background: #1e1e1e; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; }
+    .correct-answer { color: #2ecc71; }
+    .wrong-answer { color: #e74c3c; }
 
-/* ── Cards ── */
-.card{
-  background:var(--bg-card);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;
-  padding:18px;
-}
-.card h3{margin-top:0;color:var(--gold2)}
-
-/* ── Inputs & Buttons ── */
-button,input{font:inherit}
-input{
-  width:100%;padding:11px 14px;
-  border-radius:12px;border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.05);color:var(--text);outline:none;
-  margin:4px 0;
-}
-input::placeholder{color:var(--muted)}
-button{
-  cursor:pointer;border:none;border-radius:14px;
-  padding:11px 16px;
-  background:linear-gradient(135deg,#d6b56d,#f4dfb0 45%,#9f7d2e);
-  color:#1b1202;font-weight:800;
-  transition:opacity .2s;
-}
-button:hover{opacity:.85}
-button.ghost{
-  background:rgba(255,255,255,.08);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.1);
-}
-button.ghost:hover{background:rgba(255,255,255,.15)}
-button.green-btn{
-  background:linear-gradient(135deg,var(--green),var(--green-dark));
-  color:#fff;
-}
-
-/* ── Tags ── */
-.tag{
-  display:inline-block;padding:4px 10px;border-radius:999px;
-  background:rgba(214,181,109,.14);color:var(--gold2);
-  border:1px solid rgba(214,181,109,.26);margin:3px 6px 3px 0;font-size:12px;
-}
-.tag-blue{background:rgba(56,189,248,.12);color:var(--blue);border-color:rgba(56,189,248,.3)}
-.tag-green{background:rgba(34,197,94,.12);color:var(--green);border-color:rgba(34,197,94,.3)}
-.small{color:var(--muted);font-size:13px}
-
-/* ── Tic Tac Toe ── */
-#ttt{display:grid;grid-template-columns:repeat(3,84px);gap:10px;justify-content:center;margin:10px 0}
-.tttCell{width:84px;height:84px;font-size:30px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;border-radius:18px}
-
-/* ── iframe ── */
-iframe{width:100%;min-height:520px;border:0;border-radius:16px;background:white}
-
-/* ── Health Dashboard specific ── */
-.health-inputs{display:flex;flex-wrap:wrap;gap:8px}
-.health-inputs input{width:calc(50% - 4px);min-width:120px}
-
-.meter-wrap{text-align:center}
-canvas{display:block;margin:10px auto}
-
-.challenge-text{
-  font-size:18px;color:var(--gold2);
-  min-height:40px;margin:10px 0;
-  padding:12px;background:rgba(247,231,176,.06);
-  border-radius:12px;border:1px solid rgba(247,231,176,.15);
-}
-
-/* ── XP / Level ── */
-.level-label{color:var(--blue);font-size:20px;font-weight:700;margin:8px 0}
-.progress{background:rgba(255,255,255,.08);height:18px;border-radius:999px;overflow:hidden;margin:8px 0}
-.bar{height:18px;width:0%;border-radius:999px;transition:width .4s ease;
-  background:linear-gradient(90deg,var(--green),#4ade80)}
-
-/* ── Streak ── */
-.streak-display{font-size:36px;font-weight:800;color:var(--gold2);margin:6px 0}
-
-/* ── Badges ── */
-.badge-item{
-  display:inline-flex;flex-direction:column;align-items:center;
-  background:linear-gradient(135deg,rgba(214,181,109,.15),rgba(214,181,109,.05));
-  border:1px solid rgba(214,181,109,.3);
-  padding:12px 16px;margin:8px;border-radius:14px;
-  cursor:pointer;font-weight:bold;color:var(--gold2);
-  font-size:13px;transition:transform .15s;
-}
-.badge-item:hover{transform:scale(1.05)}
-
-/* ── Score text ── */
-.score-label{font-size:22px;font-weight:700;margin:8px 0;color:var(--gold2)}
-</style>
+    @media (max-width: 1100px) { .netflix-row { flex-direction: column; } .report-preview, .assessment-card { min-width: auto; width: 100%; max-height: none; } }
+  </style>
 </head>
 <body>
-
-<header>
-  <div class="badge-top">Avengers Premium Collection</div>
-  <h1>Avengers Final Working Hub</h1>
-  <p class="small">All-in-one: Games · Health Dashboard · Tasks · Connect</p>
-</header>
-
-<main>
-
-  <!-- ══════════════════════════════════════════════
-       SECTION 1 — GAMES
-  ══════════════════════════════════════════════ -->
-  <section class="section">
-    <h2>🎮 Games</h2>
-    <div class="grid games">
-
-      <!-- Tic Tac Toe -->
-      <div class="card">
-        <h3>1. Tic Tac Toe</h3>
-        <div id="ttt"></div>
-        <div class="small" id="tttMsg">Player X starts.</div>
-        <button class="ghost" onclick="resetTtt()" style="margin-top:10px">Reset</button>
-      </div>
-
-      <!-- Word Finder -->
-      <div class="card">
-        <h3>2. Word Finder</h3>
-        <div class="small">Moderate word finder. Use Show Answer if needed.</div>
-        <div id="wfHint" class="small" style="margin-top:6px"></div>
-        <div id="wfLetters" style="font-size:28px;letter-spacing:8px;margin:10px 0"></div>
-        <input id="wfInput" placeholder="Type the word">
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-          <button onclick="checkWF()">Check</button>
-          <button class="ghost" onclick="showWFAnswer()">Show Answer</button>
-          <button class="ghost" onclick="nextWF()">Next Word</button>
-        </div>
-        <div class="small" id="wfMsg"></div>
-      </div>
-
-      <!-- Trivia -->
-      <div class="card">
-        <h3>3. Trivia Vault</h3>
-        <div id="triviaQ"></div>
-        <div id="triviaOpts" class="grid" style="margin-top:10px"></div>
-        <div class="small" id="triviaMsg"></div>
-        <button class="ghost" onclick="nextTrivia()" style="margin-top:10px">Next Question</button>
-      </div>
-
+<div class="hero">
+  <div class="navbar">
+    <div class="logo"><i class="fas fa-heartbeat"></i> HealthPulse</div>
+    <div class="nav-links">
+      <a id="navHome" class="active">Assessment</a>
+      <a id="navWellness">30‑Day Wellness</a>
+      <a id="navQuiz">Health IQ Quiz</a>
     </div>
-  </section>
+    <a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank" class="linkedin-icon" title="Connect on LinkedIn">
+      <i class="fab fa-linkedin"></i>
+    </a>
+  </div>
 
-  <!-- ══════════════════════════════════════════════
-       SECTION 2 — HEALTH AI DASHBOARD (from index_01)
-  ══════════════════════════════════════════════ -->
-  <section class="section">
-    <h2>❤️ Health AI Dashboard</h2>
-    <div class="dashWrap">
-
-      <!-- Health Input + Score -->
-      <div class="card">
-        <h3>Health Input</h3>
-        <div class="health-inputs">
-          <input id="age"    placeholder="Age">
-          <input id="height" placeholder="Height (cm)">
-          <input id="weight" placeholder="Weight (kg)">
-          <input id="sleep"  placeholder="Sleep (hrs)">
-          <input id="steps"  placeholder="Steps">
-          <input id="water"  placeholder="Water (L)">
-          <input id="stress" placeholder="Stress (1–10)">
+  <div class="main-container">
+    <!-- ASSESSMENT VIEW -->
+    <div id="assessmentView">
+      <div class="featured-title"><i class="fas fa-clipboard-list"></i><span>Advanced Health Assessment</span></div>
+      <div class="subhead">BMI · Body Fat · BMR/TDEE · CVD Risk · Nutritional Analysis · Metabolic Profile</div>
+      <div class="netflix-row">
+        <div class="assessment-card">
+          <h2 style="font-size:1.5rem;"><i class="fas fa-user-edit"></i> Your Profile</h2>
+          <form id="healthForm">
+            <div class="form-grid">
+              <div class="input-group"><label><i class="fas fa-user"></i> Age</label><input type="number" id="age" value="42" min="18" max="100"></div>
+              <div class="input-group"><label><i class="fas fa-venus-mars"></i> Gender</label><select id="gender"><option value="male">Male</option><option value="female" selected>Female</option></select></div>
+              <div class="input-group"><label><i class="fas fa-weight-scale"></i> Weight (kg)</label><input type="number" id="weight" value="68" step="0.1"></div>
+              <div class="input-group"><label><i class="fas fa-ruler-vertical"></i> Height (cm)</label><input type="number" id="height" value="165"></div>
+              <div class="input-group"><label><i class="fas fa-tape"></i> Waist (cm)</label><input type="number" id="waist" value="78"></div>
+              <div class="input-group"><label><i class="fas fa-tape"></i> Hip (cm)</label><input type="number" id="hip" value="96"></div>
+              <div class="input-group"><label><i class="fas fa-heart"></i> Systolic BP</label><input type="number" id="bpSystolic" value="128"></div>
+              <div class="input-group"><label><i class="fas fa-heart-circle"></i> Diastolic BP</label><input type="number" id="bpDiastolic" value="82"></div>
+              <div class="input-group"><label><i class="fas fa-heart-pulse"></i> Resting HR</label><input type="number" id="restingHR" value="72"></div>
+              <div class="input-group"><label><i class="fas fa-dumbbell"></i> Activity</label><select id="activity"><option value="1.2">Sedentary</option><option value="1.375" selected>Light (1-3x/week)</option><option value="1.55">Moderate (3-5x/week)</option><option value="1.725">Active (6-7x/week)</option><option value="1.9">Athlete</option></select></div>
+              <div class="input-group"><label><i class="fas fa-smoking"></i> Smoking</label><select id="smoking"><option value="no">Non-smoker</option><option value="former">Former smoker</option><option value="yes">Current smoker</option></select></div>
+              <div class="input-group"><label><i class="fas fa-apple-alt"></i> Diet</label><select id="dietQuality"><option value="poor">Poor</option><option value="average" selected>Average</option><option value="good">Good</option><option value="excellent">Excellent</option></select></div>
+            </div>
+            <div class="action-bar">
+              <button type="submit" class="btn-primary"><i class="fas fa-calculator"></i> Generate Comprehensive Report</button>
+              <button type="button" id="resetBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Reset</button>
+            </div>
+          </form>
         </div>
-        <button class="green-btn" onclick="analyze()" style="margin-top:12px;width:100%">Analyze Health</button>
-
-        <div class="meter-wrap" style="margin-top:16px">
-          <canvas id="meter" width="180" height="180"></canvas>
-          <div class="score-label" id="scoreText">—</div>
+        <div class="report-preview" id="reportContainer">
+          <div class="report-header" style="display:flex; justify-content:space-between; border-bottom:1px solid #333; padding-bottom:1rem; margin-bottom:1.5rem;">
+            <h2 style="margin:0; font-size:1.6rem;"><i class="fas fa-file-waveform"></i> Health Intelligence Report</h2>
+            <span class="badge" id="reportDate"></span>
+          </div>
+          <div id="reportContent"><div class="empty-message"><i class="fas fa-arrow-left"></i> Fill form & generate report</div></div>
         </div>
-      </div>
-
-      <!-- Trend + Level + Streak -->
-      <div style="display:flex;flex-direction:column;gap:14px">
-
-        <div class="card">
-          <h3>Health Trend</h3>
-          <canvas id="chart" width="320" height="160"></canvas>
-        </div>
-
-        <div class="card">
-          <h3>Level System</h3>
-          <div class="level-label">Level <span id="level">1</span></div>
-          <div class="progress"><div class="bar" id="xpBar"></div></div>
-          <div class="small" id="xpText">0 XP</div>
-        </div>
-
-        <div class="card">
-          <h3>Streak 🔥</h3>
-          <div class="streak-display" id="streak">0 Days</div>
-        </div>
-
-      </div>
-
-      <!-- Challenge -->
-      <div class="card">
-        <h3>Daily Challenge</h3>
-        <div id="challenge" class="challenge-text"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-          <button class="green-btn" onclick="completeChallenge()">✅ Complete</button>
-          <button class="ghost" onclick="newChallenge()">🔄 New Challenge</button>
-        </div>
-
-        <h3 style="margin-top:20px">Health Badges</h3>
-        <div id="badges"></div>
-        <canvas id="badgeCanvas" width="500" height="300" style="display:none"></canvas>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════
-       SECTION 3 — HEALTH TASKS + CALCULATOR
-  ══════════════════════════════════════════════ -->
-  <section class="section">
-    <h2>🏃 Health Section</h2>
-    <div class="healthWrap">
-      <div class="card">
-        <h3>Get Healthy Task</h3>
-        <button onclick="getHealthyTask()">Get Healthy Task</button>
-        <div id="taskOut" style="margin-top:12px"></div>
-      </div>
-      <div class="card">
-        <h3>Fitness &amp; Health Calculator</h3>
-        <iframe src="https://www.calculator.net/fitness-and-health-calculator.html"
-                sandbox="allow-scripts allow-forms allow-same-origin allow-popups"></iframe>
       </div>
     </div>
-  </section>
 
-  <!-- ══════════════════════════════════════════════
-       SECTION 4 — CONNECT
-  ══════════════════════════════════════════════ -->
-  <section class="section">
-    <h2>🔗 Connect</h2>
-    <div class="card">
-      <h3>LinkedIn</h3>
-      <p class="small">Connect with Bhavik Dedhia on LinkedIn.</p>
-      <a href="https://www.linkedin.com/in/bhavikrdedhia" target="_blank" rel="noopener noreferrer"
-         style="display:inline-block;text-decoration:none;padding:11px 20px;border-radius:14px;
-                background:linear-gradient(135deg,#0a66c2,#2a93f7);color:#fff;font-weight:800">
-        Open LinkedIn Profile
-      </a>
+    <!-- WELLNESS VIEW -->
+    <div id="wellnessView" style="display: none;">
+      <button class="back-btn" id="backToAssessmentBtn"><i class="fas fa-arrow-left"></i> Back to Assessment</button>
+      <div class="wellness-header">
+        <div class="featured-title"><i class="fas fa-calendar-check"></i><span>30‑Day Transformation Challenge</span></div>
+        <div class="progress-stats" id="progressStats">0/30 days completed</div>
+      </div>
+      <div class="subhead">✓ Check off each day. Complete all 30 to unlock your achievement badge.</div>
+      <div id="workoutPlanContainer" class="workout-grid"></div>
+      <div class="badge-section" id="badgeSection">
+        <h3 style="font-size:1.6rem; margin-bottom:0.5rem;"><i class="fas fa-medal"></i> Premium Achievement Badge</h3>
+        <p style="color:#aaa; margin-bottom:1.5rem;">Complete all 30 days – then personalize & download your badge.</p>
+        <div class="name-input-container">
+          <label style="color:#ccc;"><i class="fas fa-signature"></i> Your name (optional):</label>
+          <input type="text" id="badgeNameInput" placeholder="e.g. Alex Rivera" maxlength="30">
+        </div>
+        <div class="badge-preview">
+          <canvas id="badgeCanvas" width="500" height="300" style="width:100%; max-width:450px; height:auto;"></canvas>
+          <div style="text-align:left;">
+            <div style="font-size:1.2rem; font-weight:600;" id="badgeStatusMessage">🔒 0/30 completed</div>
+            <div style="margin:12px 0; color:#ccc;" id="motivationLine"></div>
+          </div>
+        </div>
+        <div class="badge-actions">
+          <button class="btn-primary" id="downloadBadgeBtn" style="grid-column:auto; margin:0;" disabled><i class="fas fa-download"></i> Download Badge</button>
+          <button class="btn-secondary" id="resetProgressBtn"><i class="fas fa-undo-alt"></i> Reset Progress</button>
+        </div>
+      </div>
     </div>
-  </section>
 
-</main>
+    <!-- HEALTH QUIZ VIEW -->
+    <div id="quizView" style="display: none;">
+      <div class="featured-title"><i class="fas fa-brain"></i><span>Health IQ Challenge</span></div>
+      <div class="subhead">50 questions · Learn essential health facts while you play</div>
+      <div class="quiz-container" id="quizContainer"></div>
+    </div>
+  </div>
+</div>
 
 <script>
-/* ══════════════════════════════════════════
-   GAMES — Tic Tac Toe
-══════════════════════════════════════════ */
-const tttEl=document.getElementById('ttt');
-let board=Array(9).fill(''), turn='X', over=false;
-const tttMsg=document.getElementById('tttMsg');
+  (function(){
+    "use strict";
 
-function drawTtt(){
-  tttEl.innerHTML='';
-  board.forEach((v,i)=>{
-    const b=document.createElement('button');
-    b.className='tttCell';
-    b.textContent=v;
-    b.onclick=()=>playTtt(i);
-    tttEl.appendChild(b);
-  });
-}
-function win(b,p){
-  return[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
-    .some(l=>l.every(i=>b[i]===p));
-}
-function playTtt(i){
-  if(over||board[i])return;
-  board[i]=turn; drawTtt();
-  if(win(board,turn)){tttMsg.textContent='Player '+turn+' wins!'; over=true; return;}
-  if(!board.includes('')){tttMsg.textContent='Draw!'; over=true; return;}
-  turn=turn==='X'?'O':'X';
-  tttMsg.textContent="Player "+turn+"'s turn.";
-}
-function resetTtt(){board=Array(9).fill(''); turn='X'; over=false; tttMsg.textContent='Player X starts.'; drawTtt();}
-resetTtt();
+    // ----- NAVIGATION -----
+    const assessmentView = document.getElementById('assessmentView');
+    const wellnessView = document.getElementById('wellnessView');
+    const quizView = document.getElementById('quizView');
+    const navHome = document.getElementById('navHome');
+    const navWellness = document.getElementById('navWellness');
+    const navQuiz = document.getElementById('navQuiz');
+    const backBtn = document.getElementById('backToAssessmentBtn');
 
-/* ══════════════════════════════════════════
-   GAMES — Word Finder
-══════════════════════════════════════════ */
-const wfBank=[
-  {w:'MARVEL',h:'Superhero universe'},{w:'HEROIC',h:'Brave and noble'},
-  {w:'GALAXY',h:'A huge system of stars'},{w:'POWERS',h:'Special abilities'},
-  {w:'PLANET',h:'A world in space'},{w:'AVENGER',h:'A force for justice'},
-  {w:'VIBRANT',h:'Full of energy'},{w:'MISSION',h:'A special task'},
-  {w:'CAPTAIN',h:'A leader role'},{w:'THUNDER',h:'Loud storm sound'}
-];
-let wfIndex=0, wfCurrent='';
-function shuffleWord(w){return w.split('').sort(()=>Math.random()-.5).join(' ')}
-function nextWF(){
-  const item=wfBank[wfIndex%wfBank.length]; wfCurrent=item.w;
-  document.getElementById('wfHint').textContent='Hint: '+item.h;
-  document.getElementById('wfLetters').textContent=shuffleWord(wfCurrent);
-  document.getElementById('wfInput').value='';
-  document.getElementById('wfMsg').textContent='';
-  wfIndex++;
-}
-function checkWF(){
-  const ans=document.getElementById('wfInput').value.trim().toUpperCase();
-  document.getElementById('wfMsg').textContent=ans===wfCurrent?'✅ Correct!':'❌ Try again.';
-}
-function showWFAnswer(){document.getElementById('wfMsg').textContent='Answer: '+wfCurrent;}
-nextWF();
+    function showView(viewId) {
+      assessmentView.style.display = 'none';
+      wellnessView.style.display = 'none';
+      quizView.style.display = 'none';
+      navHome.classList.remove('active');
+      navWellness.classList.remove('active');
+      navQuiz.classList.remove('active');
+      if (viewId === 'assessment') { assessmentView.style.display = 'block'; navHome.classList.add('active'); }
+      else if (viewId === 'wellness') { wellnessView.style.display = 'block'; navWellness.classList.add('active'); renderWorkoutGrid(); updateBadgeAndProgress(); }
+      else if (viewId === 'quiz') { quizView.style.display = 'block'; navQuiz.classList.add('active'); initQuiz(); }
+    }
+    navHome.addEventListener('click', () => showView('assessment'));
+    navWellness.addEventListener('click', () => showView('wellness'));
+    navQuiz.addEventListener('click', () => showView('quiz'));
+    backBtn.addEventListener('click', () => showView('assessment'));
 
-/* ══════════════════════════════════════════
-   GAMES — Trivia Vault
-══════════════════════════════════════════ */
-const triviaBank=[
-  {q:'Which movie featured Shah Rukh Khan and Deepika Padukone in 2023?',o:['Jawan','Pathaan','Dunki','Fighter'],a:0},
-  {q:'Which film starred Aamir Khan as a coach in 2001?',o:['Lagaan','3 Idiots','PK','Dangal'],a:0},
-  {q:'Which movie starred Salman Khan as Chulbul Pandey?',o:['Dabangg','Sultan','Kick','Tiger Zinda Hai'],a:0},
-  {q:'Which film is the debut of Hrithik Roshan?',o:['Kaho Naa... Pyaar Hai','Refugee','Dhoom 2','Koi... Mil Gaya'],a:0},
-  {q:'Which film starred Ranbir Kapoor as a musician?',o:['Rockstar','Barfi!','Sanju','YJHD'],a:0},
-  {q:'Which film was a wrestling biopic featuring Aamir Khan?',o:['Dangal','PK','Ghajini','Taare Zameen Par'],a:0},
-  {q:'Which movie featured Shah Rukh Khan as a dwarf?',o:['Zero','Fan','Don 2','Ra.One'],a:0},
-  {q:'Which film featured Deepika Padukone as Padmavati?',o:['Padmaavat','Bajirao Mastani','Piku','Chhapaak'],a:0},
-  {q:'Which film had the song "Apna Time Aayega"?',o:['Gully Boy','83','Pathaan','Dunki'],a:0},
-  {q:'Which film starred Vicky Kaushal as Sam Manekshaw?',o:['Sam Bahadur','Uri','Sardar Udham','Fighter'],a:0},
-  {q:'Which film starred Kartik Aaryan in Bhool Bhulaiyaa sequel?',o:['Bhool Bhulaiyaa 2','Freddy','Shehzada','Love Aaj Kal'],a:0},
-  {q:'Which film starred Ranbir Kapoor in a 2023 action drama?',o:['Animal','Sanju','Tamasha','Brahmāstra'],a:0},
-  {q:'Which film featured Alia Bhatt in a 2022 crime drama?',o:['Gangubai Kathiawadi','Darlings','Brahmāstra','Raazi'],a:0},
-  {q:'Which film starred Shahid Kapoor as a cricketer?',o:['Jersey','Kabir Singh','Haider','Phata Poster Nikhla Hero'],a:0},
-  {q:'Which film starred Akshay Kumar in a space-themed mission movie?',o:['Mission Mangal','Sooryavanshi','Kesari','Baby'],a:0},
-  {q:'Which film starred Ajay Devgn in a 2020 period war drama?',o:['Tanhaji','Drishyam 2','Shaitaan','Singham Returns'],a:0},
-  {q:'Which film starred Ranveer Singh and Deepika Padukone in 2015?',o:['Bajirao Mastani','Ram-Leela','Dil Dhadakne Do','Padmaavat'],a:0},
-  {q:'Which film starred Priyanka Chopra as an athlete?',o:['Mary Kom','Fashion','Barfi!','7 Khoon Maaf'],a:0},
-  {q:'Which film starred Rani Mukerji as a cop in 2014?',o:['Mardaani','Hichki','Black','Bunty Aur Babli'],a:0},
-  {q:'Which 2024 film starred Hrithik Roshan as an Air Force officer?',o:['Fighter','War 2','Krrish 4','Lakshya'],a:0}
-];
-let tq=0;
-function renderTrivia(){
-  const d=triviaBank[tq%triviaBank.length];
-  document.getElementById('triviaQ').textContent=d.q;
-  const box=document.getElementById('triviaOpts');
-  box.innerHTML='';
-  d.o.forEach((x,i)=>{
-    const b=document.createElement('button');
-    b.className='ghost'; b.textContent=x;
-    b.onclick=()=>document.getElementById('triviaMsg').textContent=i===d.a?'✅ Correct!':'❌ Try again.';
-    box.appendChild(b);
-  });
-  document.getElementById('triviaMsg').textContent='';
-}
-function nextTrivia(){tq++; renderTrivia();}
-renderTrivia();
+    // ----- HEALTH CALCULATIONS -----
+    const reportDateSpan = document.getElementById('reportDate');
+    const reportContent = document.getElementById('reportContent');
+    function setReportDate() { const d = new Date(); reportDateSpan.textContent = d.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'}); }
+    function calculateBMI(w,h) { return w/(h/100)**2; }
+    function getBMICategory(bmi) { if(bmi<18.5) return 'Underweight'; if(bmi<25) return 'Normal'; if(bmi<30) return 'Overweight'; return 'Obese'; }
+    function calculateBodyFat(weight,height,waist,hip,neck,gender){ const h=height; return gender==='male'?86.010*Math.log10(waist-neck)-70.041*Math.log10(h)+36.76:163.205*Math.log10(waist+hip-neck)-97.684*Math.log10(h)-78.387; }
+    function waistToHeightRatio(w,h){ return w/h; }
+    function calculateBMR(w,h,a,g){ return g==='male'?10*w+6.25*h-5*a+5:10*w+6.25*h-5*a-161; }
+    function calculateTDEE(b,a){ return b*a; }
+    function estimateVO2Max(age,hr){ return (15.3*((208-0.7*age)/hr)).toFixed(1); }
+    function calculateCVDRisk(age,gender,smoker,bpSys,bmi){ let p=Math.floor(age/5)-6; if(gender==='male')p+=3; if(smoker==='yes')p+=4; else if(smoker==='former')p+=2; if(bpSys>=130)p+=2; if(bpSys>=140)p+=3; if(bmi>=30)p+=2; return {points:p, risk: Math.min(30,Math.max(2,p*1.2)).toFixed(1)}; }
+    function checkMetabolicSyndrome(w,s,d,g){ let c=0; if((g==='male'&&w>102)||(g==='female'&&w>88))c++; if(s>=130||d>=85)c++; return {criteria:c, hasMetSyn:c>=3}; }
+    function calculateNutrition(w,h,a,g,act,tdee){ return {protein:(w*1.6).toFixed(0), carbs:(tdee*0.5/4).toFixed(0), fat:(tdee*0.3/9).toFixed(0), fiber:g==='male'?38:25, water:(w*35/1000).toFixed(1)}; }
+    function estimateBiologicalAge(cAge,bmi,bpSys,smoker,act){ let bio=cAge; if(bmi>=30)bio+=3; else if(bmi>=25)bio+=1; if(bpSys>=140)bio+=4; else if(bpSys>=130)bio+=2; if(smoker==='yes')bio+=8; else if(smoker==='former')bio+=3; if(act<1.4)bio+=3; return Math.round(bio); }
 
-/* ══════════════════════════════════════════
-   HEALTH DASHBOARD — Challenges
-══════════════════════════════════════════ */
-const baseChallenges=[
-  'Walk 8000 steps','Drink 2 liters of water','Meditate for 5 minutes',
-  'Stretch for 10 minutes','Eat a fruit','Sleep before 11 PM',
-  'Do 20 squats','Take stairs instead of elevator',
-  'Avoid sugar today','Practice deep breathing'
-];
-const challenges=Array.from({length:350},(_,i)=>
-  `${baseChallenges[i%baseChallenges.length]} (#${i+1})`
-);
-let challengePool=[], currentChallenge='';
+    function generateReport() {
+      try {
+        const age = +document.getElementById('age').value||42, gender=document.getElementById('gender').value, weight=+document.getElementById('weight').value||68, height=+document.getElementById('height').value||165;
+        const waist=+document.getElementById('waist').value||78, hip=+document.getElementById('hip').value||96, bpSys=+document.getElementById('bpSystolic').value||128, bpDia=+document.getElementById('bpDiastolic').value||82;
+        const restingHR=+document.getElementById('restingHR').value||72, activity=+document.getElementById('activity').value||1.375, smoking=document.getElementById('smoking').value;
+        const neck=gender==='male'?38:34;
 
-function resetChallenges(){challengePool=[...challenges].sort(()=>Math.random()-.5);}
-function newChallenge(){
-  if(!challengePool.length) resetChallenges();
-  currentChallenge=challengePool.pop();
-  document.getElementById('challenge').textContent=currentChallenge;
-}
+        const bmi=calculateBMI(weight,height), bmiCat=getBMICategory(bmi), bodyFat=calculateBodyFat(weight,height,waist,hip,neck,gender);
+        const whtRatio=waistToHeightRatio(waist,height), bmr=calculateBMR(weight,height,age,gender), tdee=calculateTDEE(bmr,activity);
+        const vo2max=estimateVO2Max(age,restingHR), cvd=calculateCVDRisk(age,gender,smoking,bpSys,bmi), metSyn=checkMetabolicSyndrome(waist,bpSys,bpDia,gender);
+        const nutrition=calculateNutrition(weight,height,age,gender,activity,tdee), bioAge=estimateBiologicalAge(age,bmi,bpSys,smoking,activity);
+        const bpCat = bpSys<120&&bpDia<80?'Normal':bpSys<130&&bpDia<80?'Elevated':bpSys<140||bpDia<90?'Stage 1 HTN':'Stage 2 HTN';
+        
+        setReportDate();
 
-/* ══════════════════════════════════════════
-   HEALTH DASHBOARD — XP & Level
-══════════════════════════════════════════ */
-let xp=0, level=1;
-function gainXP(v){
-  xp+=v;
-  if(xp>=level*100){level++; xp=0; alert('🎉 Level Up! You are now Level '+level);}
-  updateXP();
-}
-function updateXP(){
-  document.getElementById('level').textContent=level;
-  document.getElementById('xpBar').style.width=((xp/(level*100))*100)+'%';
-  document.getElementById('xpText').textContent=xp+' XP';
-}
+        const html = `
+          <div class="disclaimer-box">
+            <i class="fas fa-exclamation-triangle" style="color:#f39c12;"></i> 
+            <strong>Medical Disclaimer — Important:</strong> This automated health assessment is for educational and informational purposes only. It is not a medical diagnosis, treatment recommendation, or substitute for professional medical advice. Always consult a qualified physician.
+          </div>
+          <div class="metric-tiles">
+            <div class="tile"><span class="label">BMI</span><div class="value">${bmi.toFixed(1)}<span class="unit">kg/m²</span></div><small>${bmiCat}</small></div>
+            <div class="tile"><span class="label">Body Fat</span><div class="value">${bodyFat.toFixed(1)}<span class="unit">%</span></div><small>${bodyFat>(gender==='male'?25:32)?'Above avg':'Healthy'}</small></div>
+            <div class="tile"><span class="label">Waist/Height</span><div class="value">${whtRatio.toFixed(2)}</div><small>${whtRatio>0.5?'⚠️ Elevated':'✓ Good'}</small></div>
+            <div class="tile"><span class="label">BMR / TDEE</span><div class="value">${Math.round(bmr)}<span class="unit">/${Math.round(tdee)}</span></div><small>kcal/day</small></div>
+          </div>
+          <div class="two-column">
+            <div class="info-box"><strong><i class="fas fa-heart" style="color:#e50914;"></i> Cardiovascular</strong><br>BP: ${bpSys}/${bpDia} mmHg (${bpCat})<br>Resting HR: ${restingHR} bpm<br>Est. VO₂ Max: ${vo2max} ml/kg/min<br>10-yr CVD Risk: ${cvd.risk}%</div>
+            <div class="info-box"><strong><i class="fas fa-chart-line"></i> Metabolic Profile</strong><br>BMR: ${Math.round(bmr)} kcal · TDEE: ${Math.round(tdee)} kcal<br>Biological Age: ${bioAge} ${bioAge>age?'📈':bioAge<age?'🎉':'➡️'}<br>Metabolic Syn: ${metSyn.hasMetSyn?'⚠️ Present':'✓ Not present'}</div>
+          </div>
+          <div class="doctor-report">
+            <div class="report-header-doctor"><span style="font-weight:700;"><i class="fas fa-stethoscope"></i> CLINICAL SUMMARY & RECOMMENDATIONS</span></div>
+            <div class="report-section">
+              <h4><i class="fas fa-clipboard-check"></i> Detailed Impression</h4>
+              <p>${age}-year-old ${gender}, height ${height} cm, weight ${weight} kg. BMI ${bmi.toFixed(1)} kg/m² (${bmiCat}). Blood pressure ${bpSys}/${bpDia} mmHg (${bpCat}). Resting heart rate ${restingHR} bpm. Estimated biological age is ${bioAge} years, which is ${bioAge>age?'above':bioAge<age?'below':'equal to'} chronological age. ${metSyn.hasMetSyn?'Criteria for metabolic syndrome are met. ':''}${smoking==='yes'?'Active tobacco use is a significant modifiable risk factor. ':''}Waist-to-height ratio ${whtRatio.toFixed(2)} (${whtRatio>0.5?'elevated, indicating central adiposity':'within desirable range'}). Body fat percentage ${bodyFat.toFixed(1)}% is ${bodyFat>(gender==='male'?25:32)?'above the healthy range':'within healthy limits'}. Estimated 10-year cardiovascular disease risk is approximately ${cvd.risk}%.</p>
+            </div>
+            <div class="report-section">
+              <h4><i class="fas fa-notes-medical"></i> Professional Recommendations</h4>
+              <ul class="rec-list">
+                <li><i class="fas fa-check-circle"></i> <strong>Nutrition:</strong> Aim for ~${nutrition.protein}g protein, ${nutrition.carbs}g carbohydrates, ${nutrition.fat}g fat, and ${nutrition.fiber}g fiber daily. Hydration target ~${nutrition.water}L. Emphasize whole foods, fruits, vegetables, lean proteins, and healthy fats. Limit sodium to <2300 mg/day.</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Physical Activity:</strong> Engage in at least 150 minutes of moderate-intensity aerobic activity weekly, plus two or more days of strength training. Consider aiming for 8,000–10,000 steps per day.</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Weight Management:</strong> ${bmi>=25?`A gradual weight loss of 0.5–1 kg per week (caloric deficit ~500 kcal/day) is advised to reach a healthier BMI range.`:'Maintain current weight through balanced nutrition and regular activity.'}</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Cardiovascular Health:</strong> ${bpCat.includes('HTN')?'Monitor blood pressure regularly. Lifestyle modifications (DASH diet, reduced sodium, increased potassium) are first-line interventions.':'Maintain healthy BP through ongoing lifestyle habits.'}</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Follow-up:</strong> Schedule routine check-ups including lipid panel, fasting glucose, and blood pressure reassessment. ${smoking==='yes'?'Strongly consider smoking cessation resources and support. ':''}Annual preventive care is recommended.</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Sleep & Stress:</strong> Prioritize 7–9 hours of quality sleep per night. Incorporate stress-reduction techniques such as mindfulness, meditation, or yoga.</li>
+              </ul>
+            </div>
+            <div style="margin-top:16px; background:#1f1f1f; padding:12px; border-radius:20px; font-style:italic;">
+              <i class="fas fa-user-md"></i> <strong>Clinical Note:</strong> This report is algorithmically generated based on provided data. It is intended for educational use and should be reviewed by a healthcare professional for personalized medical advice.
+            </div>
+          </div>
+        `;
+        reportContent.innerHTML = html;
+      } catch(e) { reportContent.innerHTML = '<div class="empty-message">Error generating report</div>'; }
+    }
 
-/* ══════════════════════════════════════════
-   HEALTH DASHBOARD — Streak
-══════════════════════════════════════════ */
-let streak=0;
-function updateStreak(){
-  streak++;
-  document.getElementById('streak').textContent=streak+' Days';
-}
+    document.getElementById('healthForm').addEventListener('submit', e=>{ e.preventDefault(); generateReport(); });
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      document.getElementById('age').value=42; document.getElementById('gender').value='female'; document.getElementById('weight').value=68; document.getElementById('height').value=165;
+      document.getElementById('waist').value=78; document.getElementById('hip').value=96; document.getElementById('bpSystolic').value=128; document.getElementById('bpDiastolic').value=82;
+      document.getElementById('restingHR').value=72; document.getElementById('activity').value='1.375'; document.getElementById('smoking').value='no'; document.getElementById('dietQuality').value='average';
+      reportContent.innerHTML = '<div class="empty-message"><i class="fas fa-arrow-left"></i> Fill form & generate report</div>'; setReportDate();
+    });
 
-/* ══════════════════════════════════════════
-   HEALTH DASHBOARD — Badges
-══════════════════════════════════════════ */
-let badges=[];
-function awardBadge(task){
-  badges.push({task, date:new Date().toLocaleDateString()});
-  renderBadges();
-}
-function renderBadges(){
-  document.getElementById('badges').innerHTML=badges.map((b,i)=>`
-    <div class="badge-item" onclick="downloadBadge(${i})">
-      🏅 Badge<br><small style="color:var(--muted)">${b.date}</small>
-    </div>
-  `).join('');
-}
-function downloadBadge(i){
-  const b=badges[i];
-  const canvas=document.getElementById('badgeCanvas');
-  const ctx=canvas.getContext('2d');
+    // ----- WELLNESS (unchanged) -----
+    const workoutPlan = Array.from({length:30}, (_,i)=>({ day:i+1, type:['Walking','Yoga','Upper Body','Lower Body','HIIT','Full Body','Active Recovery'][i%7], desc:['20 min brisk','Flow','Push-ups','Squats','Intervals','Circuit','Stretch'][i%7] }));
+    let completedDays = JSON.parse(localStorage.getItem('hp30Completed')) || [];
+    function saveProgress(){ localStorage.setItem('hp30Completed', JSON.stringify(completedDays)); }
+    function toggleDay(day){ completedDays.includes(day) ? completedDays=completedDays.filter(d=>d!==day) : completedDays.push(day); saveProgress(); renderWorkoutGrid(); updateBadgeAndProgress(); }
+    function renderWorkoutGrid(){
+      const container = document.getElementById('workoutPlanContainer');
+      container.innerHTML = workoutPlan.map(w=>`<div class="day-card ${completedDays.includes(w.day)?'completed':''}"><div class="day-number">${w.day}</div><div class="day-label">Day ${w.day}</div><div class="day-type">${w.type}</div><div style="font-size:0.8rem;">${w.desc}</div><div class="day-check"><input type="checkbox" ${completedDays.includes(w.day)?'checked':''} data-day="${w.day}"> <label>Done</label></div></div>`).join('');
+      document.querySelectorAll('.day-check input').forEach(cb=>cb.addEventListener('change', e=>toggleDay(parseInt(e.target.dataset.day))));
+    }
+    const canvas = document.getElementById('badgeCanvas'), ctx = canvas.getContext('2d');
+    const nameInput = document.getElementById('badgeNameInput');
+    function drawBadge(unlocked){
+      const name = nameInput.value.trim() || (unlocked ? 'Health Champion' : 'In Progress');
+      const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const grad = ctx.createLinearGradient(0,0,500,300); grad.addColorStop(0,'#0b0b12'); grad.addColorStop(1,'#1c1c28');
+      ctx.fillStyle=grad; ctx.fillRect(0,0,500,300); ctx.strokeStyle=unlocked?'#f1c40f':'#7f8c8d'; ctx.lineWidth=6; ctx.strokeRect(4,4,492,292);
+      ctx.strokeStyle=unlocked?'#d4af37':'#95a5a6'; ctx.lineWidth=2; ctx.strokeRect(12,12,476,276);
+      ctx.font='bold 26px Inter'; ctx.fillStyle=unlocked?'#f1c40f':'#bdc3c7'; ctx.textAlign='center'; ctx.fillText(unlocked?'⭐ 30-DAY CHAMPION ⭐':'🌱 JOURNEY IN PROGRESS',250,60);
+      ctx.font='600 22px Inter'; ctx.fillStyle='#fff'; ctx.fillText(name,250,110);
+      ctx.font='500 16px Inter'; ctx.fillStyle='#bbb'; ctx.fillText(unlocked?`Awarded: ${dateStr}`:`As of: ${dateStr}`,250,150);
+      ctx.font='italic 18px Inter'; ctx.fillStyle=unlocked?'#d4af37':'#aaa'; ctx.fillText(unlocked?'"Consistency forged. You earned it."':'"Every rep matters. Keep going."',250,200);
+      ctx.font='36px sans-serif'; ctx.fillStyle=unlocked?'#f39c12':'#5d6d7e'; ctx.fillText(unlocked?'🏆':'💪',250,260);
+      if(unlocked){ ctx.font='20px sans-serif'; ctx.fillStyle='#f1c40f'; ctx.fillText('✨',60,70); ctx.fillText('✨',420,230); }
+    }
+    function updateBadgeAndProgress(){
+      const cnt=completedDays.length; document.getElementById('progressStats').textContent=`${cnt}/30 days completed${cnt===30?' 🎉':''}`;
+      const allDone=cnt===30; document.getElementById('badgeStatusMessage').innerHTML=allDone?'🏆 CONGRATULATIONS! Badge Unlocked!':`🔒 ${cnt}/30 · Keep going!`;
+      document.getElementById('motivationLine').innerHTML=allDone?'"Consistency transforms. You did it!"':'"Every day counts. Stay strong."';
+      document.getElementById('downloadBadgeBtn').disabled=!allDone; drawBadge(allDone);
+    }
+    nameInput.addEventListener('input', ()=>drawBadge(completedDays.length===30));
+    document.getElementById('downloadBadgeBtn').addEventListener('click', ()=>{ if(completedDays.length===30){ const a=document.createElement('a'); a.download=`HealthPulse_Badge_${new Date().toISOString().slice(0,10)}.png`; a.href=canvas.toDataURL(); a.click(); } });
+    document.getElementById('resetProgressBtn').addEventListener('click', ()=>{ if(confirm('Reset all 30-day progress?')){ completedDays=[]; saveProgress(); renderWorkoutGrid(); updateBadgeAndProgress(); } });
 
-  // Background
-  ctx.fillStyle='#071024'; ctx.fillRect(0,0,500,300);
+    // ----- FULL 50-QUESTION QUIZ (RESTORED) -----
+    const quizQuestions = [
+      { question: "What is the recommended amount of moderate-intensity aerobic activity per week for adults?", options: ["60 minutes", "150 minutes", "300 minutes", "90 minutes"], answer: 1, explanation: "WHO recommends at least 150 minutes of moderate-intensity or 75 minutes of vigorous-intensity activity weekly." },
+      { question: "Which vitamin is produced by the body when exposed to sunlight?", options: ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin B12"], answer: 2, explanation: "Vitamin D is synthesized in the skin upon sun exposure, essential for bone health." },
+      { question: "What is the main function of dietary fiber?", options: ["Build muscle", "Provide quick energy", "Aid digestion and prevent constipation", "Strengthen bones"], answer: 2, explanation: "Fiber promotes healthy bowel movements and feeds beneficial gut bacteria." },
+      { question: "Which of these is a healthy source of unsaturated fat?", options: ["Butter", "Olive oil", "Coconut oil", "Lard"], answer: 1, explanation: "Olive oil is rich in monounsaturated fats, beneficial for heart health." },
+      { question: "How many hours of sleep are generally recommended for adults per night?", options: ["5-6 hours", "7-9 hours", "10-11 hours", "4-5 hours"], answer: 1, explanation: "Most adults need 7–9 hours for optimal cognitive and physical recovery." },
+      { question: "What does BMI stand for?", options: ["Body Muscle Index", "Basal Metabolic Intake", "Body Mass Index", "Bone Mass Indicator"], answer: 2, explanation: "BMI is a screening tool using weight and height to categorize weight status." },
+      { question: "Which mineral is crucial for maintaining healthy blood pressure?", options: ["Iron", "Calcium", "Potassium", "Zinc"], answer: 2, explanation: "Potassium helps counteract sodium's effect and relaxes blood vessel walls." },
+      { question: "What is the leading preventable cause of death worldwide?", options: ["Obesity", "Smoking", "Alcohol", "Road accidents"], answer: 1, explanation: "Tobacco use is responsible for over 8 million deaths annually." },
+      { question: "Which of the following is a complete protein source?", options: ["Lentils", "Quinoa", "Almonds", "Brown rice"], answer: 1, explanation: "Quinoa contains all nine essential amino acids, making it a complete protein." },
+      { question: "What is the normal resting heart rate range for most adults?", options: ["40-50 bpm", "60-100 bpm", "100-120 bpm", "30-40 bpm"], answer: 1, explanation: "A lower resting heart rate generally indicates better cardiovascular fitness." },
+      { question: "Which food is highest in probiotics?", options: ["Yogurt", "Bread", "Pasta", "Steak"], answer: 0, explanation: "Yogurt contains live beneficial bacteria that support gut health." },
+      { question: "What is the primary role of carbohydrates in the body?", options: ["Build enzymes", "Provide energy", "Repair tissues", "Regulate hormones"], answer: 1, explanation: "Carbs are the body's preferred energy source, broken down into glucose." },
+      { question: "Which of these is a symptom of dehydration?", options: ["Dark urine", "Clear urine", "Increased appetite", "Cold hands"], answer: 0, explanation: "Dark yellow or amber urine often indicates inadequate fluid intake." },
+      { question: "What is the 'sunshine vitamin' also known as?", options: ["Vitamin B6", "Vitamin D", "Vitamin E", "Vitamin K"], answer: 1, explanation: "Vitamin D is synthesized when skin is exposed to UVB rays." },
+      { question: "How many grams of sugar is roughly in one teaspoon?", options: ["2 grams", "4 grams", "8 grams", "10 grams"], answer: 1, explanation: "One teaspoon of granulated sugar equals about 4 grams." },
+      { question: "Which type of exercise is best for improving bone density?", options: ["Swimming", "Cycling", "Weight-bearing exercises", "Yoga"], answer: 2, explanation: "Activities like walking, jogging, and resistance training stimulate bone formation." },
+      { question: "What does 'HDL' stand for?", options: ["High-Density Lipoprotein", "Heavy-Duty Lipid", "Human Digestive Liquid", "Hormone Discharge Level"], answer: 0, explanation: "HDL is 'good' cholesterol that helps remove other forms from bloodstream." },
+      { question: "Which of the following is NOT a benefit of regular physical activity?", options: ["Improved mood", "Increased risk of osteoporosis", "Better sleep", "Weight management"], answer: 1, explanation: "Exercise actually reduces osteoporosis risk by strengthening bones." },
+      { question: "What is the recommended daily water intake for an average adult?", options: ["1 liter", "2-3 liters", "4-5 liters", "0.5 liter"], answer: 1, explanation: "About 2-3 liters (8-12 cups) from all beverages and foods." },
+      { question: "Which of these foods is a good source of iron?", options: ["Spinach", "Banana", "White bread", "Cheese"], answer: 0, explanation: "Spinach contains non-heme iron; pair with vitamin C for better absorption." },
+      { question: "What is the maximum recommended daily sodium intake for adults?", options: ["1,500 mg", "2,300 mg", "3,500 mg", "5,000 mg"], answer: 1, explanation: "American Heart Association recommends no more than 2,300 mg, ideally 1,500 mg." },
+      { question: "Which mental health condition is characterized by persistent sadness and loss of interest?", options: ["Anxiety", "Bipolar disorder", "Depression", "ADHD"], answer: 2, explanation: "Depression affects how you feel, think, and handle daily activities." },
+      { question: "What is the main purpose of a warm-up before exercise?", options: ["Burn more calories", "Increase injury risk", "Prepare muscles and joints", "Decrease heart rate"], answer: 2, explanation: "Warming up gradually increases blood flow and flexibility." },
+      { question: "Which vitamin is essential for blood clotting?", options: ["Vitamin A", "Vitamin C", "Vitamin K", "Vitamin E"], answer: 2, explanation: "Vitamin K is necessary for synthesizing proteins involved in coagulation." },
+      { question: "What is a normal blood pressure reading?", options: ["140/90 mmHg", "120/80 mmHg", "160/100 mmHg", "90/60 mmHg"], answer: 1, explanation: "120/80 is considered within the normal, healthy range." },
+      { question: "Which of these is a whole grain?", options: ["White rice", "Oatmeal", "White bread", "Pasta"], answer: 1, explanation: "Oatmeal contains the entire grain kernel—bran, germ, and endosperm." },
+      { question: "How often should you do strength training exercises per week?", options: ["Once a month", "At least 2 times", "Every day", "Never"], answer: 1, explanation: "Major muscle groups should be worked at least twice weekly." },
+      { question: "What is the glycemic index (GI)?", options: ["Measure of fat content", "Measure of how quickly food raises blood sugar", "Protein quality score", "Vitamin density"], answer: 1, explanation: "Low-GI foods cause a slower, more gradual rise in blood glucose." },
+      { question: "Which of the following is a sign of a heart attack?", options: ["Chest discomfort", "Sudden headache", "Blurred vision", "Itchy skin"], answer: 0, explanation: "Chest pain, shortness of breath, and discomfort in arms/back/jaw are common signs." },
+      { question: "What is the primary function of antioxidants?", options: ["Build muscle", "Fight free radicals", "Increase cholesterol", "Store energy"], answer: 1, explanation: "Antioxidants neutralize free radicals, reducing oxidative stress." },
+      { question: "Which of these is a good source of omega-3 fatty acids?", options: ["Salmon", "Chicken breast", "Pork", "Tofu"], answer: 0, explanation: "Fatty fish like salmon provide EPA and DHA, important for brain and heart." },
+      { question: "What is the main health risk associated with high LDL cholesterol?", options: ["Liver disease", "Kidney stones", "Atherosclerosis (plaque buildup)", "Anemia"], answer: 2, explanation: "LDL cholesterol can accumulate in arteries, leading to blockages." },
+      { question: "Which of the following is a mindfulness practice?", options: ["Meditation", "Running", "Weightlifting", "Dancing"], answer: 0, explanation: "Meditation focuses on present-moment awareness and reduces stress." },
+      { question: "What is the recommended daily intake of fiber for adults?", options: ["10-15 grams", "25-38 grams", "50-60 grams", "5 grams"], answer: 1, explanation: "Women need ~25g, men ~38g; most people fall short." },
+      { question: "Which organ is responsible for filtering blood and producing urine?", options: ["Heart", "Lungs", "Kidneys", "Liver"], answer: 2, explanation: "Kidneys remove waste and excess fluid, regulating electrolytes." },
+      { question: "What is the best way to prevent the spread of germs?", options: ["Wearing gloves", "Frequent handwashing", "Taking vitamins", "Avoiding crowds"], answer: 1, explanation: "Hand hygiene is one of the most effective ways to prevent infection." },
+      { question: "What does 'RICE' stand for in injury treatment?", options: ["Rest, Ice, Compression, Elevation", "Run, Ice, Crush, Elevate", "Rest, Inject, Cool, Exercise", "Recover, Ice, Cardio, Eat"], answer: 0, explanation: "RICE helps reduce swelling and pain in acute injuries." },
+      { question: "Which of these is a symptom of type 2 diabetes?", options: ["Increased thirst and urination", "Sudden weight gain", "Hair loss", "Joint stiffness"], answer: 0, explanation: "High blood sugar causes frequent urination and thirst." },
+      { question: "What is the main component of a healthy diet according to MyPlate?", options: ["Half fruits and vegetables", "Mostly grains", "Mostly protein", "Equal parts all groups"], answer: 0, explanation: "MyPlate recommends filling half your plate with fruits and vegetables." },
+      { question: "Which of the following is NOT a benefit of quitting smoking?", options: ["Improved lung function", "Lower cancer risk", "Increased wrinkles", "Better sense of taste"], answer: 2, explanation: "Quitting actually improves skin health and reduces premature aging." },
+      { question: "What is the recommended maximum alcohol intake per day for women?", options: ["1 drink", "2 drinks", "3 drinks", "0 drinks"], answer: 0, explanation: "Moderate drinking: up to 1 drink/day for women, 2 for men." },
+      { question: "Which vitamin is important for immune function and found in citrus fruits?", options: ["Vitamin A", "Vitamin B12", "Vitamin C", "Vitamin D"], answer: 2, explanation: "Vitamin C supports various cellular functions of the immune system." },
+      { question: "What does 'MET' stand for in exercise physiology?", options: ["Metabolic Equivalent of Task", "Maximum Effort Training", "Muscle Endurance Test", "Moderate Exercise Time"], answer: 0, explanation: "MET measures energy cost of physical activities." },
+      { question: "Which of these is a sign of good mental health?", options: ["Constant worry", "Ability to cope with stress", "Isolating from friends", "Sleeping all day"], answer: 1, explanation: "Resilience and coping skills are indicators of mental well-being." },
+      { question: "What is the best way to get enough vitamin D if you have limited sun exposure?", options: ["Eat more bananas", "Take a supplement or fortified foods", "Drink more water", "Exercise more"], answer: 1, explanation: "Supplements or fortified milk/cereal can help maintain levels." },
+      { question: "Which of the following is a healthy coping mechanism for stress?", options: ["Smoking", "Overeating", "Deep breathing exercises", "Ignoring the problem"], answer: 2, explanation: "Deep breathing activates the parasympathetic nervous system, calming the body." },
+      { question: "What is the main purpose of a cool-down after exercise?", options: ["Increase heart rate suddenly", "Prevent blood pooling and dizziness", "Burn extra calories", "Tighten muscles"], answer: 1, explanation: "Gradual cool-down helps return heart rate and blood pressure to normal." },
+      { question: "Which of the following foods is highest in added sugar?", options: ["Plain yogurt", "Soda", "Oatmeal", "Nuts"], answer: 1, explanation: "A single can of soda can contain 9-12 teaspoons of sugar." },
+      { question: "What does 'BMI' not account for?", options: ["Height", "Weight", "Muscle mass", "Age"], answer: 2, explanation: "BMI cannot distinguish between fat and muscle, so athletes may be misclassified." },
+      { question: "Why is breakfast often called the most important meal?", options: ["It jumpstarts metabolism", "It's the largest meal", "It's the only meal with protein", "It prevents all diseases"], answer: 0, explanation: "Eating breakfast replenishes glucose and provides energy for the day." }
+    ];
 
-  // Gold border
-  ctx.strokeStyle='#d6b56d'; ctx.lineWidth=4;
-  ctx.strokeRect(10,10,480,280);
+    let currentQuizIndex = 0;
+    let userAnswers = new Array(quizQuestions.length).fill(null);
+    let quizSubmitted = false;
+    let answerLocked = false;
+    const quizContainer = document.getElementById('quizContainer');
 
-  // Title
-  ctx.fillStyle='#f7e7b0'; ctx.font='bold 26px Arial'; ctx.textAlign='center';
-  ctx.fillText('HEALTH ACHIEVEMENT BADGE',250,70);
+    function initQuiz() {
+      currentQuizIndex = 0;
+      userAnswers = new Array(quizQuestions.length).fill(null);
+      quizSubmitted = false;
+      answerLocked = false;
+      renderQuizQuestion();
+    }
 
-  // Divider
-  ctx.strokeStyle='rgba(214,181,109,.4)'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(40,90); ctx.lineTo(460,90); ctx.stroke();
+    function renderQuizQuestion() {
+      if (quizSubmitted) { showQuizResults(); return; }
+      const q = quizQuestions[currentQuizIndex];
+      const selectedIdx = userAnswers[currentQuizIndex];
+      const isAnswered = selectedIdx !== null;
+      answerLocked = isAnswered;
 
-  // Task
-  ctx.fillStyle='#38bdf8'; ctx.font='17px Arial';
-  ctx.fillText('Task: '+b.task,250,150);
+      let optionsHtml = '';
+      q.options.forEach((opt, idx) => {
+        let optionClass = 'quiz-option';
+        if (selectedIdx === idx) optionClass += ' selected';
+        if (isAnswered) {
+          if (idx === q.answer) optionClass += ' correct-highlight';
+          else if (selectedIdx === idx) optionClass += ' wrong-highlight';
+        }
+        optionsHtml += `<div class="${optionClass}" data-option-index="${idx}"><span class="option-letter">${String.fromCharCode(65+idx)}</span> ${opt}</div>`;
+      });
 
-  // Date
-  ctx.fillStyle='#f4f7ff'; ctx.font='15px Arial';
-  ctx.fillText('Date: '+b.date,250,200);
+      const feedbackHtml = isAnswered ? `
+        <div class="quiz-feedback">
+          <strong><i class="fas fa-${selectedIdx === q.answer ? 'check-circle' : 'times-circle'}"></i> ${selectedIdx === q.answer ? 'Correct!' : 'Not quite.'}</strong><br>
+          ${q.explanation}
+        </div>` : '';
 
-  // Medal emoji area
-  ctx.font='40px Arial'; ctx.fillText('🏅',250,255);
+      const html = `
+        <div class="quiz-header"><span><i class="fas fa-question-circle"></i> Question ${currentQuizIndex+1} of ${quizQuestions.length}</span><span class="quiz-progress">${Math.round(((currentQuizIndex+1)/quizQuestions.length)*100)}%</span></div>
+        <div class="quiz-question">${q.question}</div>
+        <div class="quiz-options">${optionsHtml}</div>
+        ${feedbackHtml}
+        <div class="quiz-actions">
+          ${currentQuizIndex > 0 ? '<button class="btn-secondary" id="prevQuizBtn"><i class="fas fa-arrow-left"></i> Previous</button>' : ''}
+          ${isAnswered ? 
+            (currentQuizIndex < quizQuestions.length-1 ? '<button class="btn-primary" id="nextQuizBtn" style="grid-column:auto;">Next <i class="fas fa-arrow-right"></i></button>' : '<button class="btn-primary" id="finishQuizBtn" style="grid-column:auto;">See Results <i class="fas fa-trophy"></i></button>')
+            : '<button class="btn-primary" id="submitAnswerBtn" style="grid-column:auto;" disabled>Submit Answer</button>'}
+        </div>
+      `;
+      quizContainer.innerHTML = html;
 
-  setTimeout(()=>{
-    const link=document.createElement('a');
-    link.download='health_badge.png';
-    link.href=canvas.toDataURL();
-    link.click();
-  },100);
-}
+      if (!isAnswered) {
+        document.querySelectorAll('.quiz-option').forEach(opt => {
+          opt.addEventListener('click', () => {
+            if (answerLocked) return;
+            document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            const idx = parseInt(opt.dataset.optionIndex);
+            userAnswers[currentQuizIndex] = idx;
+            document.getElementById('submitAnswerBtn').disabled = false;
+          });
+        });
+        document.getElementById('submitAnswerBtn').addEventListener('click', () => {
+          if (userAnswers[currentQuizIndex] !== null) {
+            answerLocked = true;
+            renderQuizQuestion();
+          }
+        });
+      } else {
+        if (document.getElementById('nextQuizBtn')) document.getElementById('nextQuizBtn').addEventListener('click', () => { currentQuizIndex++; renderQuizQuestion(); });
+        if (document.getElementById('finishQuizBtn')) document.getElementById('finishQuizBtn').addEventListener('click', () => { quizSubmitted = true; showQuizResults(); });
+        if (document.getElementById('prevQuizBtn')) document.getElementById('prevQuizBtn').addEventListener('click', () => { currentQuizIndex--; renderQuizQuestion(); });
+      }
+    }
 
-/* ══════════════════════════════════════════
-   HEALTH DASHBOARD — Complete Challenge
-══════════════════════════════════════════ */
-function completeChallenge(){
-  if(!currentChallenge){alert('Generate a challenge first!'); return;}
-  gainXP(50);
-  updateStreak();
-  awardBadge(currentChallenge);
-}
+    function showQuizResults() {
+      let correct = userAnswers.filter((a,i)=> a === quizQuestions[i].answer).length;
+      let reviewHtml = '';
+      quizQuestions.forEach((q,i) => {
+        const userAns = userAnswers[i];
+        reviewHtml += `<div class="review-item"><strong>${i+1}. ${q.question}</strong><br>Your answer: ${userAns!==null?q.options[userAns]:'Not answered'} <span class="${userAns===q.answer?'correct-answer':'wrong-answer'}">(${userAns===q.answer?'✓':'✗'})</span><br><span class="correct-answer">Correct: ${q.options[q.answer]}</span><br><small>${q.explanation}</small></div>`;
+      });
+      quizContainer.innerHTML = `
+        <div class="quiz-result">
+          <i class="fas fa-medal" style="font-size:3rem; color:#e50914;"></i>
+          <div class="quiz-score">${correct} / ${quizQuestions.length}</div>
+          <p style="font-size:1.2rem;">${correct >= 40 ? '🏆 Health Expert!' : correct >= 30 ? '👍 Good knowledge!' : '📚 Keep learning!'}</p>
+          <div class="quiz-actions" style="justify-content:center; margin:1.5rem 0;"><button class="btn-secondary" id="restartQuizBtn"><i class="fas fa-redo-alt"></i> Restart Quiz</button></div>
+          <div class="quiz-review"><h3><i class="fas fa-list"></i> Review Answers</h3>${reviewHtml}</div>
+        </div>`;
+      document.getElementById('restartQuizBtn').addEventListener('click', initQuiz);
+    }
 
-/* ══════════════════════════════════════════
-   HEALTH DASHBOARD — Analyze
-══════════════════════════════════════════ */
-let scores=[];
-function getValue(id){return parseFloat(document.getElementById(id).value)||0;}
-
-function analyze(){
-  const h=getValue('height'), w=getValue('weight');
-  if(!h||!w){alert('Please enter height and weight.'); return;}
-
-  const bmi=w/((h/100)**2);
-  let score=100;
-  if(bmi<18.5||bmi>25) score-=15;
-
-  const sleep=getValue('sleep'), steps=getValue('steps'),
-        water=getValue('water'), stress=getValue('stress');
-  if(sleep&&(sleep<6||sleep>9)) score-=10;
-  if(steps&&steps<5000) score-=10;
-  if(water&&water<1.5) score-=10;
-  if(stress&&stress>7) score-=10;
-
-  score=Math.max(0,score);
-  scores.push(score);
-  drawMeter(score);
-  drawChart();
-  document.getElementById('scoreText').textContent='Health Score: '+score+' / 100';
-}
-
-function drawMeter(score){
-  const c=document.getElementById('meter');
-  const ctx=c.getContext('2d');
-  ctx.clearRect(0,0,180,180);
-
-  // BG ring
-  ctx.beginPath(); ctx.arc(90,90,70,0,2*Math.PI);
-  ctx.strokeStyle='rgba(255,255,255,.1)'; ctx.lineWidth=14; ctx.stroke();
-
-  // Score arc
-  const color=score>=70?'#22c55e':score>=40?'#facc15':'#ef4444';
-  ctx.beginPath();
-  ctx.arc(90,90,70,-Math.PI/2,(score/100)*2*Math.PI-Math.PI/2);
-  ctx.strokeStyle=color; ctx.lineWidth=14; ctx.stroke();
-
-  // Label
-  ctx.fillStyle='#f7e7b0'; ctx.font='bold 26px Arial'; ctx.textAlign='center';
-  ctx.fillText(score,90,98);
-  ctx.fillStyle='var(--muted)'; ctx.font='12px Arial';
-  ctx.fillText('/100',90,116);
-}
-
-function drawChart(){
-  const c=document.getElementById('chart');
-  const ctx=c.getContext('2d');
-  ctx.clearRect(0,0,320,160);
-  if(scores.length<1) return;
-
-  // Line
-  ctx.beginPath();
-  scores.forEach((s,i)=>{
-    const x=i*(320/Math.max(scores.length-1,1)), y=160-(s/100)*150;
-    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
-  });
-  ctx.strokeStyle='#d6b56d'; ctx.lineWidth=2; ctx.stroke();
-
-  // Dots
-  scores.forEach((s,i)=>{
-    const x=i*(320/Math.max(scores.length-1,1)), y=160-(s/100)*150;
-    ctx.beginPath(); ctx.arc(x,y,4,0,2*Math.PI);
-    ctx.fillStyle='#f7e7b0'; ctx.fill();
-  });
-}
-
-/* ══════════════════════════════════════════
-   HEALTH SECTION — Healthy Tasks (500+)
-══════════════════════════════════════════ */
-const tasks=['Drink water after waking up.','Brush your teeth.','Floss daily.','Take a short walk.','Eat a balanced breakfast.','Include vegetables in meals.','Choose fruit as a snack.','Stretch for 5 minutes.','Sit with good posture.','Take movement breaks during work.','Sleep 7–9 hours.','Avoid screens before bed.','Wash hands before meals.','Limit sugary drinks.','Reduce junk food.','Cook at home more often.','Plan meals ahead.','Keep healthy snacks ready.','Exercise regularly.','Do strength training.','Do cardio.','Practice deep breathing.','Spend time outdoors.','Keep your space tidy.','Track your progress.','Meditate for 5 minutes.','Eat slowly and mindfully.','Stop eating when full.','Drink enough water through the day.','Use stairs instead of elevator.','Stand up after sitting too long.','Pack a healthy lunch.','Prepare vegetables in advance.','Reduce late-night snacking.','Get sunlight in the morning.','Sleep and wake at consistent times.','Check posture while sitting.','Take a short break every hour.','Read instead of scrolling.','Write down one gratitude each day.','Keep your phone away while eating.','Walk after meals.','Do light stretching in the morning.','Do light stretching before bed.','Keep a regular meal schedule.','Avoid overeating.','Eat protein with meals.','Include whole grains.','Limit processed foods.','Choose homemade meals more often.','Brush twice a day.','Replace your toothbrush regularly.','Use mouthwash if needed.','Shower regularly.','Wear clean clothes.','Trim nails regularly.','Wash face daily.','Apply sunscreen.','Keep skin clean and moisturized.','Stay hydrated in hot weather.','Rest when feeling unwell.','Take medicine as prescribed.','Keep doctor appointments.','Get dental checkups.','Get eye checkups.','Monitor blood pressure if needed.','Monitor blood sugar if needed.','Maintain a healthy weight.','Keep a healthy waistline.','Follow health advice from a doctor.','Avoid smoking.','Avoid secondhand smoke.','Limit alcohol.','Avoid recreational drugs.','Stay away from addictive habits.','Practice stress management.','Talk to someone when stressed.','Journal your thoughts.','Listen to calming music.','Spend time in nature.','Take deep breaths during stress.','Break tasks into smaller steps.','Keep a simple daily plan.','Set realistic goals.','Celebrate small progress.','Use a to-do list.','Review goals weekly.','Avoid multitasking too much.','Focus on one task at a time.','Keep your desk organized.','Clean your room regularly.','Open windows for fresh air.','Reduce clutter.','Maintain good lighting.','Take breaks from loud noise.','Protect your hearing.','Wear comfortable shoes.','Maintain good foot hygiene.','Stretch calves and ankles.','Warm up before exercise.','Cool down after exercise.','Increase activity gradually.','Choose active hobbies.','Dance for exercise.','Ride a bicycle.','Swim when possible.','Play a sport.','Do yoga.','Do Pilates.','Practice balance exercises.','Strengthen core muscles.','Work on flexibility.','Track steps daily.','Walk during phone calls.','Park farther away.','Take the stairs.','Do bodyweight exercises.','Do push-ups.','Do squats.','Do lunges.','Do planks.','Do jumping jacks.','Do brisk walking.','Do light jogging.','Do interval training.','Stretch hamstrings.','Stretch shoulders.','Stretch back muscles.','Stretch neck gently.','Roll shoulders back.','Drink water before workouts.','Eat after workouts.','Rest between hard workouts.','Sleep enough for recovery.','Listen to your body.','Avoid overtraining.','Keep workout clothes clean.','Keep shoes in good condition.','Maintain exercise consistency.','Increase daily movement.','Reduce long sitting periods.','Get up and walk around.','Use a standing desk sometimes.','Sit with feet flat.','Keep screen at eye level.','Support lower back.','Avoid slouching.','Stretch wrists and hands.','Take care of joint health.','Warm up joints gently.','Eat a colorful plate.','Include leafy greens.','Include legumes.','Include nuts and seeds.','Include dairy or alternatives.','Include lean proteins.','Reduce fried foods.','Reduce packaged snacks.','Read nutrition labels.','Watch portion size.','Plan grocery shopping.','Buy healthy staples.','Keep fruits visible.','Keep water accessible.','Prepare breakfast ahead.','Avoid skipping meals.','Limit excess caffeine.','Avoid energy drinks.','Drink herbal tea if desired.','Eat enough fiber.','Support digestion with food.','Avoid rushing meals.','Chew food properly.','Eat dinner earlier.','Choose healthy desserts sometimes.','Keep sweets occasional.','Make healthy swaps.','Use less sugar in tea or coffee.','Use less salt.','Use healthy cooking oils.','Steam or bake instead of fry.','Grill food carefully.','Add spices for flavor.','Try new healthy recipes.','Cook a batch meal.','Freeze healthy portions.','Use leftovers wisely.','Avoid food waste.','Keep kitchen clean.','Store food safely.','Wash produce before eating.','Carry a water bottle.','Refill water regularly.','Track daily hydration.','Drink before you feel thirsty.','Hydrate during exercise.','Hydrate in hot weather.','Hydrate after waking.','Hydrate before meals.','Hydrate before bed moderately.','Sleep in a quiet room.','Sleep in a dark room.','Keep bedtime consistent.','Wake up at a fixed time.','Avoid heavy late meals.','Limit late caffeine.','Create a bedtime routine.','Read before sleep.','Dim lights at night.','Keep your phone away from bed.','Use an alarm instead of checking phone.','Avoid late-night work if possible.','Relax before sleeping.','Take a warm shower at night.','Use comfortable bedding.','Maintain a healthy mattress.','Keep room temperature pleasant.','Avoid napping too long.','Nap early if needed.','Get enough nighttime sleep.','Track sleep quality.','Manage insomnia by routine.','Reduce anxiety before bed.','Practice breathing exercises.','Try guided meditation.','Use relaxation techniques.','Clear your mind with journaling.','Keep a worry list for tomorrow.','Stop caffeine in afternoon.','Maintain sleep discipline.','Wake with natural light.','Spend time outside daily.','Walk in the park.','Sit in sunlight briefly.','Improve mood with daylight.','Keep windows open when suitable.','Avoid staying indoors all day.','Combine social and physical activity.','Invite a friend to walk.','Join a class or group.','Call family regularly.','Check on loved ones.','Maintain healthy relationships.','Avoid toxic conversations.','Set boundaries politely.','Ask for help when needed.','Offer help to others.','Practice kindness daily.','Smile at people.','Express appreciation.','Keep learning something new.','Read a book.','Learn a useful skill.','Practice a hobby.','Reduce passive screen time.','Limit social media scrolling.','Avoid doomscrolling.','Use phone intentionally.','Turn off unnecessary notifications.','Keep digital clutter low.','Organize files and photos.','Back up important data.','Keep passwords secure.','Review commitments weekly.','Say no when overloaded.','Protect personal time.','Make time for rest.','Balance work and life.','Set work boundaries.','Finish work on time.','Take lunch breaks.','Eat away from the desk.','Stretch during work breaks.','Walk during breaks.','Close work tasks at day end.','Write tomorrow\u2019s priorities.','Keep a simple calendar.','Avoid overbooking.','Prepare for busy days.','Keep emergency contacts ready.','Keep important documents organized.','Check health insurance details.','Keep a first aid kit.','Know basic first aid.','Learn CPR basics.','Keep prescriptions updated.','Store medicines safely.','Dispose expired medicines properly.','Keep vaccination records.','Stay updated on vaccines.','Protect yourself in crowds.','Wash hands after public places.','Cover coughs and sneezes.','Avoid touching face often.','Clean frequently touched surfaces.','Ventilate rooms regularly.','Stay home when contagious.','Use tissues properly.','Replace masks when necessary.','Follow hygiene during travel.','Walk 10,000 steps if appropriate.','Do 30 minutes of activity.','Alternate sitting and standing.','Build a morning routine.','Build an evening routine.','Use a habit tracker.','Review habits every Sunday.','Keep goals visible.','Reward consistency.','Track water intake.','Track meals if helpful.','Track workouts.','Track mood.','Track sleep.','Track stress triggers.','Identify healthy patterns.','Remove one unhealthy habit.','Replace with a better habit.','Prepare for temptation.','Plan healthy alternatives.','Keep healthy foods nearby.','Keep unhealthy foods out of sight.','Shop with a list.','Avoid shopping hungry.','Read ingredient lists.','Compare healthier options.','Eat at regular intervals.','Maintain stable energy.','Avoid extreme dieting.','Avoid crash diets.','Be patient with progress.','Focus on sustainability.','Build habits slowly.','Stay consistent over perfect.','Be kind to yourself.','Accept occasional setbacks.','Resume quickly after mistakes.','Learn from slip-ups.','Keep long-term goals in mind.','Make healthy choices easier.','Prepare breakfast the night before.','Pack gym clothes in advance.','Keep shoes ready by the door.','Keep water on your desk.','Keep fruits washed and ready.','Keep nuts in small portions.','Freeze healthy meals.','Use meal prep containers.','Set reminders to move.','Set reminders to drink water.','Set bedtime reminders.','Set reminders for medicines.','Use a step counter.','Use a sleep tracker.','Use a fitness app.','Use a notes app for habits.','Keep a paper planner.','Plan your week on Sunday.','Review your health goals monthly.','Check improvement regularly.','Take one rest day.','Use active recovery.','Do light yoga on rest days.','Take leisurely walks.','Avoid guilt on rest days.','Rest without overthinking.','Sleep more after heavy activity.','Rehydrate after sweating.','Eat a recovery meal.','Check for soreness safely.','Ice or heat when appropriate.','Consult a professional for pain.','Avoid ignoring persistent pain.','Maintain correct form in exercise.','Learn proper technique.','Use safe equipment.','Inspect equipment before use.','Warm up before lifting.','Breathe properly during exercise.','Exhale during effort.','Build gradual progress.','Increase weights carefully.','Increase duration carefully.','Increase intensity carefully.','Prevent injury with form.','Recover from illness fully.','Return to exercise gradually.','Keep vaccinations current.','Follow travel health precautions.','Pack needed medications when traveling.','Sleep well before travel.','Stay hydrated during travel.','Walk during long trips.','Stretch on long flights.','Avoid sitting too long while traveling.','Carry healthy snacks while traveling.','Choose healthier meals when out.','Avoid overeating at restaurants.','Share large portions.','Drink water before ordering more food.','Practice calm breathing.','Use positive self-talk.','Stop negative rumination.','Spend time on meaningful work.','Make time for joy.','Laugh often.','Listen to uplifting content.','Reduce exposure to stress news.','Protect your peace.','Create a calm morning.','Create a calm night.','Keep your home comfortable.','Use plants or natural elements.','Keep a healthy environment.','Open blinds in the morning.','Reduce noise at night.','Keep chores manageable.','Break tasks into small steps.','Ask for support early.','Delegate when possible.','Keep your schedule realistic.','Avoid perfectionism.','Focus on progress.','Practice patience.','Use affirmations if helpful.','Keep a positive mindset.','Be proactive about health.','Book checkups in advance.','Follow screening guidelines.','Keep symptom notes.','Share concerns with doctors.','Track medications side effects.','Store emergency numbers.','Keep important health records.','Know your family history.','Discuss risks with a doctor.','Learn about nutrition.','Learn about exercise.','Learn about sleep hygiene.','Learn about stress management.','Build a morning walk habit.','Build a post-lunch walk habit.','Build a pre-bed wind-down habit.','Practice gratitude at night.','Review tomorrow\u2019s tasks calmly.','Avoid checking work late.','Keep weekends restorative.','Use weekends for recovery.','Spend time with loved ones.','Do something that makes you happy.','Maintain oral hygiene.','Maintain scalp hygiene.','Maintain ear hygiene carefully.','Keep nails clean.','Keep feet clean and dry.','Wear breathable clothes.','Use clean towels.','Change bedsheets regularly.','Clean your water bottle.','Clean your lunch box.','Clean your phone screen.','Clean your keyboard.','Wash workout clothes.','Air out shoes.','Replace worn-out shoes.','Check vision needs.','Use prescribed glasses or lenses.','Rest eyes from screens.','Follow the 20-20-20 rule.','Blink often.','Adjust screen brightness.','Sit at proper distance from screens.','Avoid eye strain.','Keep neck relaxed.','Check ergonomics at desk.','Use a supportive chair.','Use foot support if needed.','Keep wrists neutral.','Take microbreaks.','Move every hour.','Practice good breathing posture.','Strengthen back muscles.','Strengthen legs.','Strengthen glutes.','Improve mobility.','Improve endurance.','Improve balance.','Improve coordination.','Build daily discipline.','Stay accountable.','Share goals with someone.','Join a healthy challenge.','Celebrate milestones.','Adjust goals when needed.','Keep trying after setbacks.','Avoid comparison.','Focus on your own progress.','Stay committed.','Make health a priority.','Repeat the habits daily.'];
-let taskIndex=0;
-function getHealthyTask(){
-  document.getElementById('taskOut').innerHTML=
-    '<span class="tag">Healthy Task</span> '+tasks[taskIndex%tasks.length];
-  taskIndex++;
-}
-
-/* ══════════════════════════════════════════
-   INIT
-══════════════════════════════════════════ */
-resetChallenges();
-newChallenge();
-updateXP();
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', ()=>{
+      setReportDate();
+      generateReport();
+      renderWorkoutGrid();
+      updateBadgeAndProgress();
+      showView('assessment');
+    });
+  })();
 </script>
 </body>
 </html>
